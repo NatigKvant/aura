@@ -1,0 +1,21 @@
+.leftMenu {
+    position: fixed;
+    display: flex;
+    margin-left: 10px;
+    top: 75px;
+    height: 400px;
+    width: 200px;
+    border: 2px solid black;
+    background: white;
+    justify-content: center;
+    z-index: 2;
+}
+
+.left_menu_content {
+    display: flex;
+    margin-top: 100px;
+}
+
+.none {
+    display: none;
+}
