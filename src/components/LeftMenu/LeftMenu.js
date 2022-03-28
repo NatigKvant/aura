@@ -11,6 +11,6 @@ const LeftMenu = ({leftMenuOpen}) => {
             </div>
         </div>
     );
-};
+}
 
 export default LeftMenu;

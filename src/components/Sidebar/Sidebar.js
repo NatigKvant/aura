@@ -1,17 +1,17 @@
 import React from 'react'
 import './Sidebar.css'
 import {Avatar} from '@material-ui/core'
-import { selectUser } from '../../features/userSlice'
-import { useSelector } from 'react-redux'
+import {selectUser} from '../../features/userSlice'
+import {useSelector} from 'react-redux'
 
 
-function Sidebar() {
+const Sidebar = () => {
     const user = useSelector(selectUser)
 
     const recentItem = (topic) => (
         <div className='sidebar_recentItem'>
-             <span className='sidebar_hash'>#</span>
-             <p>{topic}</p>
+            <span className='sidebar_hash'>#</span>
+            <p>{topic}</p>
         </div>
     )
 
@@ -19,7 +19,8 @@ function Sidebar() {
     return (
         <div className='sidebar'>
             <div className='sidebar_top'>
-                <img src='https://img5.goodfon.ru/wallpaper/nbig/d/1e/dark-metal-waves-textures-fon-tiomnyi-volny.jpg' alt=''/>
+                <img src='https://img5.goodfon.ru/wallpaper/nbig/d/1e/dark-metal-waves-textures-fon-tiomnyi-volny.jpg'
+                     alt=''/>
                 <Avatar src={user.photoUrl} className='sidebar_avatar'>
                     {user.email[0]}</Avatar>
                 <h2>{user.displayName}</h2>
@@ -37,7 +38,7 @@ function Sidebar() {
                 </div>
             </div>
             <div className='sidebar_bottom'>
-              <p>Recent :</p>
+                <p>Recent :</p>
                 <p>React</p>
                 <p>Programming</p>
                 <p>Java Script</p>

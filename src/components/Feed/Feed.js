@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import "./Feed.css";
+import React, {useEffect, useState, useCallback} from "react";
+import "./Feed.scss";
 import CreateIcon from "@material-ui/icons/Create";
 import InputOption from "./InputOption";
 import ImageIcon from "@material-ui/icons/Image";
@@ -11,10 +11,9 @@ import {db} from "../Firebase/firebase";
 import firebase from 'firebase/compat/app'
 import {useSelector} from "react-redux";
 import {selectUser} from "../../features/userSlice";
-import FlipMove from "react-flip-move";
 import TextField from "@material-ui/core/TextField";
 
-function Feed() {
+const Feed = () => {
     const user = useSelector(selectUser);
     const [input, setInput] = useState("");
     const [posts, setPosts] = useState([]);
@@ -30,9 +29,9 @@ function Feed() {
                     }))
                 )
             );
-    }, []);
+    }, [setPosts]);
 
-    const sendPost = (e) => {
+    const sendPost = useCallback((e) => {
         if (e.key === "Enter" && input !== "") {
             db.collection("posts").add({
                 name: user.displayName,
@@ -43,7 +42,7 @@ function Feed() {
             });
             setInput("");
         }
-    };
+    }, [input, user.displayName, user.email, user.photoUrl, setInput])
 
     const postHandleSubmit = (e) => {
         e.preventDefault();
@@ -51,52 +50,52 @@ function Feed() {
 
     return (
         <form onSubmit={postHandleSubmit}>
-            <div className="feed">
-                <div className="feed_inputContainer">
-                    <div className="feed_input">
-                        <CreateIcon/>
-                        <TextField
-                            variant={"outlined"}
-                            fullWidth
-                            size="small"
-                            rowsMax={2}
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onKeyPress={sendPost}
-                            type="text"
-                        />
-                    </div>
-                    <div className="feed_inputOptions">
-                        <InputOption Icon={ImageIcon} title="photo" color="#606060"/>
-                        <InputOption
-                            Icon={SubscriptionsIcon}
-                            title="video"
-                            color="#606060"
-                        />
-                        <InputOption Icon={EventNoteIcon} title="Event" color="#606060"/>
-                        <InputOption
-                            Icon={CalendarViewDayIcon}
-                            title="Write article"
-                            color="#606060"
-                        />
-                    </div>
-                </div>
-                <FlipMove>
-                    {posts.map(
-                        ({id, data: {name, description, message, photoUrl}}) => (
-                            <Post
-                                key={id}
-                                name={name}
-                                description={description}
-                                message={message}
-                                photoUrl={photoUrl}
+            <div className="feedContainer">
+                <div className="feed">
+                    <div className="feed_inputContainer">
+                        <div className="feed_input">
+                            <CreateIcon/>
+                            <TextField
+                                variant={"outlined"}
+                                fullWidth
+                                size="small"
+                                rowsMax={2}
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                onKeyPress={sendPost}
+                                type="text"
                             />
-                        )
-                    )}
-                </FlipMove>
+                        </div>
+                        <div className="feed_inputOptions">
+                            <InputOption Icon={ImageIcon} title="photo" color="#606060"/>
+                            <InputOption
+                                Icon={SubscriptionsIcon}
+                                title="video"
+                                color="#606060"
+                            />
+                            <InputOption Icon={EventNoteIcon} title="Event" color="#606060"/>
+                            <InputOption
+                                Icon={CalendarViewDayIcon}
+                                title="Write article"
+                                color="#606060"
+                            />
+                        </div>
+                    </div>
+                        {posts.map(
+                            ({id, data: {name, description, message, photoUrl}}) => (
+                                <Post
+                                    key={id}
+                                    name={name}
+                                    description={description}
+                                    message={message}
+                                    photoUrl={photoUrl}
+                                />
+                            )
+                        )}
+                </div>
             </div>
         </form>
-    );
+    )
 }
 
 export default Feed;

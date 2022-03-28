@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import "./App.css";
+import React, {useEffect, useState, memo} from "react";
+import "./App.scss";
 import Header from "./components/Header/Header";
 import Feed from "./components/Feed/Feed";
 import Login from "./components/Login/Login";
@@ -14,13 +14,30 @@ import SampleChat from "./components/SampleChat/SampleChat";
 import Notifications from "./components/Notifications/Notifications";
 import LeftMenu from "./components/LeftMenu/LeftMenu";
 
-function App() {
+
+const App = () => {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
     const [chatOpen, setChatOpen] = useState(false);
     const [notificationsOpen, setNotificationsOpen] = useState(false);
     const [leftMenuOpen, setLeftMenuOpen] = useState(false);
     const [messages, setMessages] = useState([]);
+    const [users, setUsers] = useState([])
+
+    useEffect(() => {
+        (async () => {
+            const usersRef = db.collection('users');
+            const snapshot = await usersRef.get();
+            snapshot.forEach(doc => {
+
+                const data = doc.data()
+
+                setUsers((users) => {
+                    return [...users, data]
+                })
+            })
+        })()
+    }, [])
 
     useEffect(() => {
         db.collection("messages")
@@ -34,6 +51,7 @@ function App() {
                 )
             );
     }, []);
+
 
     useEffect(() => {
         auth.onAuthStateChanged((userAuth) => {
@@ -51,7 +69,7 @@ function App() {
                 dispatch(logout());
             }
         });
-    }, []);
+    }, [dispatch]);
 
     const closePopups = () => {
         setNotificationsOpen(false);
@@ -77,14 +95,16 @@ function App() {
                     <div className="app_body" onClick={closePopups}>
                         <Chat chatOpen={chatOpen}
                               messages={messages}
+                              setMessages={setMessages}
                         />
                         <Notifications notificationsOpen={notificationsOpen}/>
                         <LeftMenu leftMenuOpen={leftMenuOpen}/>
+
                         <Switch>
                             <Route path="/feed" render={() => <Feed/>}/>
-                            <Route path="/messages" render={() => <SampleChat/>}/>
+                            <Route path="/messages" render={() => <SampleChat users={users}/>}/>
                             <Route path="/homepage" render={() => <HomePage/>}/>
-                            <Route path="/friendspage" render={() => <FriendsPage/>}/>
+                            <Route path="/friendspage" render={() => <FriendsPage users={users}/>}/>
                         </Switch>
                     </div>
                 )}

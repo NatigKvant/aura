@@ -7,11 +7,11 @@ import Widgets from "../Widgets/Widgets";
 const HomePage = () => {
     return (
         <div className='homePage'>
-            <Sidebar />
-            <HomeContent />
-            <Widgets />
+            <Sidebar/>
+            <HomeContent/>
+            <Widgets/>
         </div>
     );
-};
+}
 
 export default HomePage;

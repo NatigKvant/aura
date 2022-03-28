@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState, useRef, useCallback} from "react";
 import "./SampleChat.css";
 import {db} from "../Firebase/firebase";
 import firebase from 'firebase/compat/app'
@@ -6,12 +6,53 @@ import {useSelector} from "react-redux";
 import {selectUser} from "../../features/userSlice";
 import SampleMessage from "../SampleChat/SampleMessage";
 import {Avatar} from "@material-ui/core";
+import {styled} from "@mui/material/styles";
+import Badge from "@mui/material/Badge";
 
-const SampleChat = () => {
+export const StyledBadge = styled(Badge)(({theme, users}) => ({
+    "& .MuiBadge-badge": users ? {
+            backgroundColor: "#44b700",
+            color: "#44b700",
+            boxShadow: `0 0 0 1px ${theme.palette.background.paper}`,
+        } : {
+            backgroundColor: "grey",
+            color: "#44b700",
+            boxShadow: `0 0 0 1px ${theme.palette.background.paper}`,
+            }
+}));
+
+
+/*console.log(firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid))*/
+
+
+const SampleChat = ({users}) => {
+
     const user = useSelector(selectUser);
     const messagesEndRef = useRef(null);
     const [input, setInput] = useState("");
     const [messages, setMessages] = useState([]);
+
+    /*const initialState = {
+        user: user,
+        isOnline: false
+    }
+
+    function reducer(state = initialState, action) {
+        switch (action.type) {
+            case 'isOnline':
+                return {isOnline: true};
+            default:
+                throw new Error();
+        }
+    }
+
+    const [state, dispatch] = useReducer(reducer, initialState)
+
+    if(user) {
+        dispatch({type: 'isOnline'})
+    }
+
+    console.log(state)*/
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({behavior: "auto"});
@@ -34,7 +75,7 @@ const SampleChat = () => {
             );
     }, []);
 
-    const sendMessage = (e) => {
+    const sendMessage = useCallback((e) => {
         if (e.key === "Enter" && input !== "") {
             db.collection("messages").add({
                 name: user.displayName,
@@ -46,7 +87,7 @@ const SampleChat = () => {
             });
             setInput("");
         }
-    };
+    }, [input, user.displayName, user.email, user.photoUrl, user.uid, setInput])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -55,10 +96,17 @@ const SampleChat = () => {
     return (
         <form onSubmit={handleSubmit}>
             <div className="container1">
-                <div className="chatbox">
+                <div className="chatBox">
                     <div className="top-bar">
                         <div className="userAvatar">
-                            <Avatar src={user.photoUrl}/>
+                            <StyledBadge
+                                overlap="circular"
+                                anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                                variant="dot"
+                                users={users}
+                            >
+                                <Avatar src={user.photoUrl}/>
+                            </StyledBadge>
                         </div>
                         <h3>{user.displayName}</h3>
                     </div>
@@ -67,7 +115,7 @@ const SampleChat = () => {
                             {messages.map(
                                 ({
                                      id,
-                                     data: {name, description, message, photoUrl, userId},
+                                     data: {name, description, message, photoUrl, userId },
                                  }) => (
                                     <SampleMessage
                                         key={id}
@@ -80,19 +128,9 @@ const SampleChat = () => {
                                 )
                             )}
                             <div ref={messagesEndRef}/>
-
-                            {/*<div className="typing">
-                <div className="bubble">
-                  <div className="ellipsis one"></div>
-                  <div className="ellipsis two"></div>
-                  <div className="ellipsis three"></div>
-                </div>
-              </div>*/}
                         </div>
-                        <div className="outgoing"></div>
                     </div>
                     <div className="bottom-bar">
-                        <div>
                             <input
                                 className="input1"
                                 type="text"
@@ -101,12 +139,11 @@ const SampleChat = () => {
                                 value={input}
                                 onKeyPress={sendMessage}
                             />
-                        </div>
                     </div>
                 </div>
             </div>
         </form>
     );
-};
+}
 
 export default SampleChat;

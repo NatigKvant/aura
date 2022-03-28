@@ -3,12 +3,12 @@ import './Widgets.css'
 import InfoIcon from '@material-ui/icons/Info'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 
-function Widgets() {
+const Widgets = () => {
 
     const newsArticle = (heading, subtitle) => (
         <div className='widgets_article'>
             <div className='widgets_articleLeft'>
-                <FiberManualRecordIcon />
+                <FiberManualRecordIcon/>
             </div>
             <div className='widgets_articleRight'>
                 <h4>{heading}</h4>
@@ -21,12 +21,12 @@ function Widgets() {
         <div className='widgets'>
             <div className="widgets_header">
                 <h2>News</h2>
-                <InfoIcon />
+                <InfoIcon/>
             </div>
-            {newsArticle('Welcome aboard','Mechanism is back...')}
-            {newsArticle('Top News','reading...')}
-            {newsArticle('New genres','music is coming...')}
-            {newsArticle('Progressive','House,Techno...')}
+            {newsArticle('Welcome aboard', 'Mechanism is back...')}
+            {newsArticle('Top News', 'reading...')}
+            {newsArticle('New genres', 'music is coming...')}
+            {newsArticle('Progressive', 'House,Techno...')}
         </div>
     )
 }

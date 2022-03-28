@@ -1,12 +1,11 @@
-.chat {
-    position: fixed;
-    height: 50px;
-    top: 50px;
+.smallChat {
     display: flex;
+    position: fixed;
+    top: 70px;
     flex-direction: column;
-    border-radius: 10px;
-    width: 600px;
-    margin-left: 550px;
+    border-radius: 20px;
+    width: 400px;
+    margin-left: 1500px;
     z-index: 2;
 }
 
@@ -14,25 +13,6 @@
     display: none;
 }
 
-/*
-@media only screen and (min-width: 2560px) {
-    .chat {
-        margin-left: 530px;
-    }
-}*/
-
-
-.body1 {
-    display: grid;
-    background: linear-gradient(to bottom left, #79c7c5 40%, #f9fbff 100%);
-    font-family: 'Lato', sans-serif;
-}
-.container1 {
-    position: relative;
-    margin: 12% auto;
-    width: 620px;
-    height: 450px;
-}
 .messages1 {
     position: absolute;
     background: #f9fbff;
@@ -44,8 +24,8 @@
     border-radius: 10px 0 0 10px;
     box-shadow: -5px 5px 10px rgba(119, 119, 119, .5);
 }
-/*chat messages */
 
+/*chat messages */
 
 .middleSmallChat {
     position: relative;
@@ -53,117 +33,44 @@
     width: 100%;
     opacity: 0.85;
     max-width: 100%;
-    min-height: 73vh;
-    max-height: 70vh;
+    height: 500px;
     overflow-y: auto;
 }
-.incoming {
+
+.incomingMessages {
     position: absolute;
     width: 50%;
     height: 100%;
     padding: 20px;
 }
-.incoming .bubble {
-    background: #b2b2b2;
+
+.footer {
+    display: flex;
     width: 100%;
-    max-height: 30%;
-}
-.typing {
-    position: absolute;
-    top: 67%;
-    left: 20px;
-}
-.typing .bubble {
-    background: #eaeaea;
-    padding: 8px 13px 9px 13px;
-}
-.ellipsis {
-    width: 5px;
-    height: 5px;
-    display: inline-block;
-    background: #b7b7b7;
-    border-radius: 50%;
-    animation: bounce 1.3s linear infinite;
-}
-.one {
-    animation-delay: 0.6s;
-}
-.two {
-    animation-delay: 0.5s;
-}
-.three {
-    animation-delay: 0.8s;
-}
-.bubble {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 5px;
-    color: #f9fbff;
-    font-size: 0.7em;
-    padding: 10px 10px 10px 12px;
-    border-radius: 20px;
-}
-.lower {
-    margin-top: 45px;
-}
-.outgoing {
-    position: absolute;
-    padding: 20px;
-    right: 0;
-    top: 15%;
-    width: 45%;
-    height: 100%;
-}
-.outgoing .bubble {
-    background: #79c7c5;
-    float: right;
-}
-.bottom-bar {
-    position: absolute;
-    width: 100%;
-    height: 55px;
+    height: 45px;
     bottom: 0;
     background: #f9fbff;
     border-radius: 0 0 10px 10px;
 }
-.left {
-    left: 0;
-}
-.input1 {
+
+.smallChatInput {
     padding: 7px;
     width: 74%;
     left: 5%;
-    position: absolute;
     border: 0;
     top: 13px;
     background: #f9fbff;
     color: #79c7c5;
 }
-.input1::placeholder {
+
+.smallChatInput::placeholder {
     color: #a1e2d9;
 }
-.input1:focus {
+
+.smallChatInput:focus {
     color: #777;
     outline: 0;
 }
-.button1 {
-    position: absolute;
-    border: 0;
-    font-size: 1em;
-    color: #a1e2d9;
-    top: 19px;
-    opacity: 0.8;
-    right: 17px;
-    cursor: pointer;
-    outline: 0;
-}
-.button1:hover {
-    transform: scale(1.1);
-    transition: all 0.3s ease-in-out;
-    color: #79c7c5;
-}
-
-/*Message*/
 
 .message {
     background-color: lightgrey;
@@ -213,48 +120,4 @@
     margin-left: 130px;
     border-radius: 10px;
     width: 100%;
-}
-
-@keyframes bounce {
-    30% {
-        transform: translateY(-2px);
-    }
-    60% {
-        transform: translateY(0px);
-    }
-    80% {
-        transform: translateY(2px);
-    }
-    100% {
-        transform: translateY(0px);
-        opacity: 0.5;
-    }
-}
-
-@media only screen and (max-width: 500px) {
-    .chat {
-        right: 54%;
-        width: 206%;
-        transform: scale(0.8);
-    }
-    .myChatMessage {
-        position: relative;
-        left: 100px;
-    }
-    .middleSmallChat {
-        padding-bottom: 290px;
-    }
-}
-
-@media only screen and (min-width: 1920px) and (min-height: 1080px) {
-    .chatbox {
-        margin-left: 470px;
-        margin-top: 5px;
-    }
-}
-
-@media only screen and (min-width: 1500px) {
-    .chatbox {
-        margin-left: 480px;
-    }
 }

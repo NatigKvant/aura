@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState, useRef, useCallback} from "react";
 import "./Chat.css";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../features/userSlice";
@@ -6,7 +6,7 @@ import {db} from "../Firebase/firebase";
 import firebase from 'firebase/compat/app'
 import Message from "./Message";
 
-const Chat = ({chatOpen, messages}) => {
+const Chat = ({chatOpen, messages, setMessages}) => {
     const user = useSelector(selectUser);
     const messagesEndRef = useRef(null);
     const [input, setInput] = useState("");
@@ -19,7 +19,20 @@ const Chat = ({chatOpen, messages}) => {
         messagesEndRef.current?.scrollIntoView({behavior: "auto"});
     };
 
-    const sendMessage = async (e) => {
+    useEffect(() => {
+        db.collection("messages")
+            .orderBy("timestamp", "asc")
+            .onSnapshot((snapshot) =>
+                setMessages(
+                    snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        data: doc.data(),
+                    }))
+                )
+            );
+    }, [setMessages]);
+
+    const sendMessage = useCallback(async (e) => {
         if (e.key === "Enter" && input !== "") {
             await db.collection("messages").add({
                 name: user.displayName,
@@ -31,7 +44,7 @@ const Chat = ({chatOpen, messages}) => {
             });
             setInput("");
         }
-    };
+    }, [input, user.displayName, user.email, user.photoUrl, user.uid, setInput])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -43,9 +56,9 @@ const Chat = ({chatOpen, messages}) => {
                 className={chatOpen ? "chat" : "none"}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="chatbox">
+                <div className="smallChat">
                     <div className="middleSmallChat">
-                        <div className="incoming">
+                        <div className="incomingMessages">
                             {messages.map(
                                 ({
                                      id,
@@ -63,26 +76,16 @@ const Chat = ({chatOpen, messages}) => {
                             )}
                             <div ref={messagesEndRef}/>
                         </div>
-                        {/*<div className="outgoing"></div>*/}
-                        {/*<div className="typing">
-                <div className="bubble">
-                  <div className="ellipsis one"></div>
-                  <div className="ellipsis two"></div>
-                  <div className="ellipsis three"></div>
-                </div>
-              </div>*/}
                     </div>
-                    <div className="bottom-bar">
-                        <div>
+                    <div className="footer">
                             <input
-                                className="input1"
+                                className="smallChatInput"
                                 type="text"
                                 placeholder="Type a message..."
                                 onChange={(e) => setInput(e.target.value)}
                                 value={input}
                                 onKeyPress={sendMessage}
                             />
-                        </div>
                     </div>
                 </div>
             </div>
