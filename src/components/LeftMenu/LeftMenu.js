@@ -1,5 +1,5 @@
 import React from 'react';
-import "./LeftMenu.css";
+import "./LeftMenu.scss";
 
 const LeftMenu = ({leftMenuOpen}) => {
     return (

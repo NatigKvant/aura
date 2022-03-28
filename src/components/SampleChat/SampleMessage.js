@@ -10,14 +10,11 @@ const SampleMessage = forwardRef(
         return (
             <div ref={ref} className={userId === user.uid ? "myMessage" : "message"}>
                 <div className="message_header">
-                        <Avatar src={photoUrl}>{name[0]}</Avatar>
+                    <Avatar src={photoUrl}>{name[0]}</Avatar>
                     <div className="message_info">
                         <h2>{name}</h2>
                     </div>
                 </div>
-                {/*<div className="message_body">
-          <p>{message}</p>
-        </div>*/}
                 <div className="message_body">
                     <p>{message}</p>
                 </div>

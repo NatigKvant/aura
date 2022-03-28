@@ -1,5 +1,5 @@
 import React from 'react';
-import "./FriendsPage.css";
+import "./FriendsPage.scss";
 import {Avatar} from "@material-ui/core";
 import {styled} from "@mui/material/styles";
 import Badge from "@mui/material/Badge";

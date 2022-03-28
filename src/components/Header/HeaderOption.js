@@ -1,5 +1,5 @@
 import React from "react";
-import "./Header.css";
+import "./Header.scss";
 import {Avatar} from "@material-ui/core";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../features/userSlice";

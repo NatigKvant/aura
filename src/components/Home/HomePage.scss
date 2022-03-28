@@ -1,0 +1,16 @@
+.homePage {
+  display: flex;
+  background-color: lightslategrey;
+  height: 1000px;
+  max-height: 100%;
+  width: 100%;
+
+  .homeContent {
+    margin-top: 70px;
+
+    img {
+      height: 500px;
+      max-width: 100%;
+    }
+  }
+}

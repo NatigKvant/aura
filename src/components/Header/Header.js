@@ -17,11 +17,11 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import PeopleIcon from '@mui/icons-material/People';
-import "./Header.css";
+import "./Header.scss";
 import {NavLink} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {logout} from "../../features/userSlice";
-import {auth, db} from "../Firebase/firebase";
+import {auth} from "../Firebase/firebase";
 import HeaderOption from "./HeaderOption";
 import Stack from "@mui/material/Stack";
 import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
@@ -69,14 +69,14 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 }));
 
 const Header = ({
-                         chatOpen,
-                         setChatOpen,
-                         notificationsOpen,
-                         setNotificationsOpen,
-                         leftMenuOpen,
-                         setLeftMenuOpen,
-                         messages,
-                     }) => {
+                    chatOpen,
+                    setChatOpen,
+                    notificationsOpen,
+                    setNotificationsOpen,
+                    leftMenuOpen,
+                    setLeftMenuOpen,
+                    messages,
+                }) => {
     const dispatch = useDispatch();
     const [badgeCountMessages, setBadgeCountMessages] = useState(0);
     const [badgeCountNotifications, setBadgeCountNotifications] = useState(0);

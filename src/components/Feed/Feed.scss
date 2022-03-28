@@ -1,107 +1,111 @@
 .feedContainer {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-    overflow-x: scroll;
-    justify-content: center;
-    .feed {
-        display: flex;
-        flex-direction: column;
-        flex: 0.4;
-        margin: 70px 20px 0 0;
-        min-width: 40vh;
-        max-width: 100%;
-        height: 100%;
-        .feed_inputContainer {
-            background-color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            max-width: 100%;
-            .feed_input {
-                border-radius: 30px;
-                display: flex;
-                padding: 20px 0 0 0;
-                color: gray;
-                width: 100%;
-            }
-            .feed_input > form {
-                display: flex;
-                width: 100%;
-            }
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: scroll;
+  justify-content: center;
 
-            .feed_input > form > input {
-                border: none;
-                flex: 1;
-                margin-left: 10px;
-                outline-width: 0;
-                font-weight: 600;
-            }
-            .feed_inputOptions {
-                display: flex;
-                justify-content: space-evenly;
-                .inputOption {
-                    display: flex;
-                    align-items: center;
-                    margin-top: 15px;
-                    color: gray;
-                    padding: 10px;
-                    cursor: pointer;
-                    width: 100%;
-                }
-                .inputOption:hover {
-                    background-color: whitesmoke;
-                    border-radius: 10px;
-                }
-
-                .inputOptions > h4 {
-                    margin-left: 5px;
-                }
-            }
-        }
-    }
-}
-
-
-
-
-
-
-
-
-.send_button {
-    right: 10px;
-}
-
-
-
-.post {
+  .feed {
     display: flex;
     flex-direction: column;
-    background-color: white;
-    padding: 20px;
-    margin-bottom: 10px;
-    border-radius: 10px;
+    flex: 0.4;
+    margin: 70px 20px 0 0;
+    min-width: 40vh;
     max-width: 100%;
-    .post_header {
+    height: 100%;
+
+    .feed_inputContainer {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      max-width: 100%;
+
+      .feed_input {
+        border-radius: 30px;
+        display: flex;
+        padding: 20px 0 0 0;
+        color: gray;
+        width: 100%;
+      }
+
+      .feed_input > form {
         display: flex;
         width: 100%;
-        margin-bottom: 10px;
-        .post_info {
-            margin-left: 10px;
-        }
-        .post_info > p {
-            font-size: 12px;
-            color: gray;
-        }
-        .post_info > h2 {
-            font-size: 15px;
-        }
-    }
-    .post_body {
-        overflow-wrap: anywhere;
-    }
-    .post_buttons {
+      }
+
+      .feed_input > form > input {
+        border: none;
+        flex: 1;
+        margin-left: 10px;
+        outline-width: 0;
+        font-weight: 600;
+      }
+
+      .feed_inputOptions {
         display: flex;
         justify-content: space-evenly;
+
+        .inputOption {
+          display: flex;
+          align-items: center;
+          margin-top: 15px;
+          color: gray;
+          padding: 10px;
+          cursor: pointer;
+          width: 100%;
+
+          &:hover {
+            background-color: whitesmoke;
+            border-radius: 10px;
+          }
+        }
+
+        .inputOptions > h4 {
+          margin-left: 5px;
+        }
+      }
     }
+  }
+}
+
+.send_button {
+  right: 10px;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  max-width: 100%;
+
+  .post_header {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+
+    .post_info {
+      margin-left: 10px;
+    }
+
+    .post_info > p {
+      font-size: 12px;
+      color: gray;
+    }
+
+    .post_info > h2 {
+      font-size: 15px;
+    }
+  }
+
+  .post_body {
+    overflow-wrap: anywhere;
+  }
+
+  .post_buttons {
+    display: flex;
+    justify-content: space-evenly;
+  }
 }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef, useCallback} from "react";
-import "./Chat.css";
+import "./Chat.scss";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../features/userSlice";
 import {db} from "../Firebase/firebase";
@@ -30,6 +30,9 @@ const Chat = ({chatOpen, messages, setMessages}) => {
                     }))
                 )
             );
+        return () => {
+            console.log('unsubscribed')
+        }
     }, [setMessages]);
 
     const sendMessage = useCallback(async (e) => {
@@ -78,14 +81,14 @@ const Chat = ({chatOpen, messages, setMessages}) => {
                         </div>
                     </div>
                     <div className="footer">
-                            <input
-                                className="smallChatInput"
-                                type="text"
-                                placeholder="Type a message..."
-                                onChange={(e) => setInput(e.target.value)}
-                                value={input}
-                                onKeyPress={sendMessage}
-                            />
+                        <input
+                            className="smallChatInput"
+                            type="text"
+                            placeholder="Type a message..."
+                            onChange={(e) => setInput(e.target.value)}
+                            value={input}
+                            onKeyPress={sendMessage}
+                        />
                     </div>
                 </div>
             </div>

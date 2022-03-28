@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import './Login.css'
+import './Login.scss'
 import {auth} from '../Firebase/firebase'
 import {useDispatch} from 'react-redux'
 import {login} from '../../features/userSlice'
@@ -22,7 +22,7 @@ const Login = () => {
     }
 
     const signData = async () => {
-       await auth.signInWithEmailAndPassword(email, password).then(
+        await auth.signInWithEmailAndPassword(email, password).then(
             ({
                  user: {
                      email,
