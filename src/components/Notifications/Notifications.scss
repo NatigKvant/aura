@@ -1,11 +1,10 @@
 .notifications {
-  position: fixed;
-  display: flex;
-  margin-left: 1230px;
+  position: absolute;
+  right: 10px;
   top: 75px;
   height: 400px;
   width: 200px;
-  border: 2px solid black;
+  border: 1px solid black;
   background: white;
   justify-content: center;
   z-index: 2;
@@ -13,6 +12,8 @@
   .notifications_content {
     display: flex;
     margin-top: 100px;
+    color: black;
+    margin-left: 10px;
   }
 }
 

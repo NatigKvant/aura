@@ -1,19 +1,17 @@
-import React from "react";
-import "./Header.scss";
-import {Avatar} from "@material-ui/core";
-import {useSelector} from "react-redux";
-import {selectUser} from "../../features/userSlice";
+import React from 'react'
+import './Header.scss'
+import { Avatar } from '@material-ui/core'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../../features/userSlice'
 
-const HeaderOption = ({avatar, Icon, title, onClick}) => {
-    const user = useSelector(selectUser);
+export const HeaderOption = ({ avatar, Icon, title, onClick }) => {
+  const user = useSelector(selectUser)
 
-    return (
-        <div onClick={onClick} className="headerOption">
-            {Icon && <Icon className={"headerOption_icon"}/>}
-            {avatar && <Avatar className="sidebar_avatar" src={user?.photoUrl}/>}
-            <h3 className="headerOption_title">{title}</h3>
-        </div>
-    );
+  return (
+    <div onClick={onClick} className='headerOption'>
+      {Icon && <Icon className={'headerOption_icon'} />}
+      {avatar && <Avatar className='sidebar_avatar' src={user?.photoUrl} />}
+      <h3 className='headerOption_title'>{title}</h3>
+    </div>
+  )
 }
-
-export default HeaderOption;
