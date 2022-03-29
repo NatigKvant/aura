@@ -6,31 +6,29 @@ import { Login } from './components/Login/Login'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, logout, selectUser } from './features/userSlice'
 import { db, auth } from './components/Firebase/firebase'
-import { Chat } from './components/Chat/Chat'
 import { HomePage } from './components/Home/HomePage'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { FriendsPage } from './components/FriendsPage/FriendsPage'
 import { SampleChat } from './components/SampleChat/SampleChat'
-import { Notifications } from './components/Notifications/Notifications'
-import { LeftMenu } from './components/LeftMenu/LeftMenu'
 
 export const App = () => {
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
-  const [chatOpen, setChatOpen] = useState(false)
-  const [notificationsOpen, setNotificationsOpen] = useState(false)
-  const [leftMenuOpen, setLeftMenuOpen] = useState(false)
   const [messages, setMessages] = useState([])
   const [users, setUsers] = useState([])
+
+  const [chatOpen, setChatOpen] = useState(false)
+  const [leftMenuOpen, setLeftMenuOpen] = useState(false)
+  const [notificationsOpen, setNotificationsOpen] = useState(false)
+
+  console.log(chatOpen)
 
   useEffect(() => {
     (async () => {
       const usersRef = db.collection('users')
       const snapshot = await usersRef.get()
       snapshot.forEach(doc => {
-
         const data = doc.data()
-
         setUsers((users) => {
           return [...users, data]
         })
@@ -79,25 +77,31 @@ export const App = () => {
   return (
     <BrowserRouter>
       <div className='app'>
-        <Header
-          chatOpen={chatOpen}
-          setChatOpen={setChatOpen}
-          notificationsOpen={notificationsOpen}
-          setNotificationsOpen={setNotificationsOpen}
-          leftMenuOpen={leftMenuOpen}
-          setLeftMenuOpen={setLeftMenuOpen}
-          messages={messages}
-          setMessages={setMessages}
-        />
         {!user ? (
           <Login />
         ) : (
-          <div className='app_body' onClick={closePopups}>
+          <div>
+            <Header
+              messages={messages}
+              setMessages={setMessages}
+              user={user}
+              chatOpen={chatOpen}
+              leftMenuOpen={leftMenuOpen}
+              notificationsOpen={notificationsOpen}
+              setChatOpen={setChatOpen}
+              setLeftMenuOpen={setLeftMenuOpen}
+              setNotificationsOpen={setNotificationsOpen}
+            />
             <Switch>
-              <Route path='/feed' render={() => <Feed />} />
-              <Route path='/messages' render={() => <SampleChat users={users} />} />
-              <Route path='/homepage' render={() => <HomePage />} />
-              <Route path='/friendspage' render={() => <FriendsPage users={users} />} />
+              <div className='app_body' onClick={closePopups}>
+                <Route path='/feed' render={() => <Feed />} />
+                <Route path='/messages' render={() => <SampleChat users={users}
+                                                                  messages={messages}
+                                                                  setMessages={setMessages}
+                                                                  user={user} />} />
+                <Route path='/homepage' render={() => <HomePage />} />
+                <Route path='/friendspage' render={() => <FriendsPage users={users} />} />
+              </div>
             </Switch>
           </div>
         )}

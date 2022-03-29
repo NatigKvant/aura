@@ -3,17 +3,14 @@ import { Avatar } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/userSlice'
 
-const SampleMessage = forwardRef(
-  ({ name, description, message, photoUrl, userId }, ref) => {
-    const user = useSelector(selectUser)
+const Message = forwardRef(
+  ({ name, description, message, photoUrl, userId, user }, ref) => {
 
     return (
       <div
-        ref={ref}
-        className={userId === user.uid ? 'myChatMessage' : 'message'}
-      >
+        ref={ref} className={userId === user.uid ? 'myChatMessage' : 'message'}>
         <div className='message_header'>
-          <Avatar src={photoUrl}>{name[0]}</Avatar>
+          <Avatar className='avatar' src={photoUrl}>{name[0]}</Avatar>
           <div className='message_info'>
             <h2>{name}</h2>
           </div>
@@ -26,4 +23,4 @@ const SampleMessage = forwardRef(
   },
 )
 
-export default SampleMessage
+export default Message

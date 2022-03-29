@@ -71,16 +71,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export const Header = ({
-                         chatOpen,
-                         setChatOpen,
-                         notificationsOpen,
-                         setNotificationsOpen,
-                         leftMenuOpen,
-                         setLeftMenuOpen,
-                         messages,
+export const Header = ({ messages,
                          setMessages,
-                       }) => {
+                         user,
+                         chatOpen,
+                         leftMenuOpen,
+                         notificationsOpen,
+                         setChatOpen,
+                         setLeftMenuOpen,
+                         setNotificationsOpen
+}) => {
   const dispatch = useDispatch()
   const [badgeCountMessages, setBadgeCountMessages] = useState(0)
   const [badgeCountNotifications, setBadgeCountNotifications] = useState(0)
@@ -96,7 +96,7 @@ export const Header = ({
   const handleChatOpen = useCallback(() => {
     setChatOpen(!chatOpen)
     setBadgeCountMessages(0)
-  }, [chatOpen, setChatOpen])
+  }, [chatOpen, badgeCountMessages])
 
   const handleNotificationsOpen = useCallback(() => {
     setNotificationsOpen(!notificationsOpen)
@@ -317,6 +317,7 @@ export const Header = ({
             <Chat chatOpen={chatOpen}
                   messages={messages}
                   setMessages={setMessages}
+                  user={user}
             />
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

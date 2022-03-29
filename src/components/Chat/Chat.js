@@ -1,23 +1,21 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import './Chat.scss'
-import { useSelector } from 'react-redux'
-import { selectUser } from '../../features/userSlice'
 import { db } from '../Firebase/firebase'
 import firebase from 'firebase/compat/app'
 import Message from './Message'
 
-export const Chat = ({ chatOpen, messages, setMessages }) => {
-  const user = useSelector(selectUser)
+export const Chat = ({ chatOpen, messages, setMessages, user }) => {
+
   const messagesEndRef = useRef(null)
   const [input, setInput] = useState('')
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'auto' })
   }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
 
   useEffect(() => {
     db.collection('messages')
@@ -37,6 +35,7 @@ export const Chat = ({ chatOpen, messages, setMessages }) => {
 
   const sendMessage = useCallback(async (e) => {
     if (e.key === 'Enter' && input !== '') {
+      console.log(user)
       await db.collection('messages').add({
         name: user.displayName,
         description: user.email,
@@ -47,7 +46,7 @@ export const Chat = ({ chatOpen, messages, setMessages }) => {
       })
       setInput('')
     }
-  }, [input, user, setInput])
+  }, [user, input])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -74,6 +73,7 @@ export const Chat = ({ chatOpen, messages, setMessages }) => {
                     message={message}
                     photoUrl={photoUrl}
                     userId={userId}
+                    user={user}
                   />
                 ),
               )}

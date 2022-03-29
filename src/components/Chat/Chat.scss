@@ -71,6 +71,10 @@
     width: 100%;
     margin-bottom: 10px;
 
+    .avatar {
+      color: black;
+    }
+
     .message_info {
       margin-left: 10px;
 
@@ -88,11 +92,15 @@
 
   .message_body {
     overflow-wrap: anywhere;
+
+    p {
+      color: black;
+    }
   }
 }
 
 .myChatMessage {
-  background-color: grey;
+  background-color: lightgrey;
   padding: 5px;
   margin-bottom: 5px;
   margin-left: 130px;
@@ -103,6 +111,11 @@
     display: flex;
     width: 100%;
     margin-bottom: 10px;
+
+    .avatar {
+      color: #fafafa;
+      background-color: #bdbdbd;
+    }
   }
 
   .message_info {
@@ -110,7 +123,6 @@
 
     p {
       font-size: 12px;
-      color: white;
     }
 
     h2 {
@@ -122,5 +134,9 @@
 
   .message_body {
     overflow-wrap: anywhere;
+
+    p {
+      color: black;
+    }
   }
 }

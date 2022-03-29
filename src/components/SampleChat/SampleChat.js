@@ -4,7 +4,7 @@ import { db } from '../Firebase/firebase'
 import firebase from 'firebase/compat/app'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/userSlice'
-import SampleMessage from '../SampleChat/SampleMessage'
+import SampleMessage from './SampleMessage'
 import { Avatar } from '@material-ui/core'
 import { styled } from '@mui/material/styles'
 import Badge from '@mui/material/Badge'
@@ -21,12 +21,9 @@ export const StyledBadge = styled(Badge)(({ theme, users }) => ({
   },
 }))
 
-export const SampleChat = ({ users }) => {
-
-  const user = useSelector(selectUser)
+export const SampleChat = ({ users, messages, setMessages, user }) => {
   const messagesEndRef = useRef(null)
   const [input, setInput] = useState('')
-  const [messages, setMessages] = useState([])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'auto' })
@@ -50,11 +47,11 @@ export const SampleChat = ({ users }) => {
     return () => {
       console.log('unsubscribed')
     }
-  }, [])
+  }, [setMessages])
 
-  const sendMessage = useCallback((e) => {
+  const sendMessage = useCallback(async (e) => {
     if (e.key === 'Enter' && input !== '') {
-      db.collection('messages').add({
+      await db.collection('messages').add({
         name: user.displayName,
         description: user.email,
         message: input,
@@ -64,7 +61,7 @@ export const SampleChat = ({ users }) => {
       })
       setInput('')
     }
-  }, [input, user.displayName, user.email, user.photoUrl, user.uid, setInput])
+  }, [user, input])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -101,6 +98,7 @@ export const SampleChat = ({ users }) => {
                     message={message}
                     photoUrl={photoUrl}
                     userId={userId}
+                    user={user}
                   />
                 ),
               )}
