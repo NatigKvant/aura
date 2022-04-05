@@ -81,6 +81,7 @@ export const Feed = () => {
               />
             </div>
           </div>
+          <div className='post_container'>
           {posts.map(
             ({ id, data: { name, description, message, photoUrl } }) => (
               <Post
@@ -92,6 +93,7 @@ export const Feed = () => {
               />
             ),
           )}
+          </div>
         </div>
       </div>
     </form>

@@ -19,24 +19,26 @@ export const StyledBadge = styled(Badge)(({ theme, status }) => ({
 
 export const FriendsPage = ({ users }) => {
   return (
-    <div className='friendsPage'>
-      <div className='friendsPage_content'>
-        {users.map((user) =>
-          <div className='user'
-               key={user.userId}>
-            <StyledBadge
-              overlap='circular'
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-              variant='dot'
-              status={user.status}
-            >
-              <Avatar src={user.photoUrl} />
-            </StyledBadge>
-            <div>
-              {user.name}
-            </div>
-          </div>,
-        )}
+    <div className='friendsPage_container'>
+      <div className='friendsPage'>
+        <div className='friendsPage_content'>
+          {users.map((user) =>
+            <div className='user'
+                 key={user.userId}>
+              <StyledBadge
+                overlap='circular'
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                variant='dot'
+                status={user.status}
+              >
+                <Avatar src={user.photoUrl} />
+              </StyledBadge>
+              <div>
+                {user.name}
+              </div>
+            </div>,
+          )}
+        </div>
       </div>
     </div>
   )

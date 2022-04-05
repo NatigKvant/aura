@@ -1,16 +1,27 @@
 .homePage {
   display: flex;
   background-color: lightslategrey;
-  height: 1000px;
+  height: 100%;
   max-height: 100%;
-  width: 100%;
+  width: 100vw;
+  justify-content: center;
 
-  .homeContent {
-    margin-top: 70px;
+  .homePageContent {
+    display: flex;
+    width: 60%;
+    height: calc(100% - 64px);
+    margin-top: 64px;
+    justify-content: space-evenly;
+  }
+}
 
-    img {
-      height: 500px;
-      max-width: 100%;
+@media only screen and (max-width: 1280px) {
+  .homePage {
+    justify-content: start;
+    width: 100%;
+
+    .homePageContent {
+      width: 100vw;
     }
   }
 }

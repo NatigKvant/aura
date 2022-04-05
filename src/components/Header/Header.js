@@ -71,7 +71,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export const Header = ({ messages,
+export const Header = ({
+                         messages,
                          setMessages,
                          user,
                          chatOpen,
@@ -79,8 +80,8 @@ export const Header = ({ messages,
                          notificationsOpen,
                          setChatOpen,
                          setLeftMenuOpen,
-                         setNotificationsOpen
-}) => {
+                         setNotificationsOpen,
+                       }) => {
   const dispatch = useDispatch()
   const [badgeCountMessages, setBadgeCountMessages] = useState(0)
   const [badgeCountNotifications, setBadgeCountNotifications] = useState(0)
@@ -182,29 +183,16 @@ export const Header = ({ messages,
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleChatOpen}>
+      <MenuItem to={'/messages'} component={NavLink}>
         <IconButton size='large'
                     aria-label='show 4 new mails'
                     color='inherit'
-
         >
           <Badge badgeContent={badgeCountMessages} color='error'>
             <MailIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size='large'
-          aria-label='show 17 new notifications'
-          color='inherit'
-        >
-          <Badge badgeContent={17} color='error'>
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -278,15 +266,6 @@ export const Header = ({ messages,
                 color='inherit'
               >
                 <ForumIcon />
-              </IconButton>
-              <IconButton
-                className='item'
-                variant='contained'
-                to={'/feed'}
-                component={NavLink}
-                color='inherit'
-              >
-                <DynamicFeedIcon />
               </IconButton>
             </Stack>
             <IconButton

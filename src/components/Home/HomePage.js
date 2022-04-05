@@ -1,15 +1,17 @@
 import React from 'react'
 import './HomePage.scss'
 import { Sidebar } from '../Sidebar/Sidebar'
-import { HomeContent } from './HomeContent'
+import { Feed } from '../Feed/Feed'
 import { Widgets } from '../Widgets/Widgets'
 
 export const HomePage = () => {
   return (
     <div className='homePage'>
-      <Sidebar />
-      <HomeContent />
-      <Widgets />
+      <div className='homePageContent'>
+        <Sidebar />
+        <Feed />
+        <Widgets />
+      </div>
     </div>
   )
 }

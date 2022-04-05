@@ -1,17 +1,21 @@
-.friendsPage {
+.friendsPage_container {
   display: flex;
-  margin-top: 180px;
-  height: 600px;
-  max-height: 100%;
-  width: 1200px;
-  border: 1px solid black;
+  height: 100vh;
 
-  .friendsPage_content {
+  .friendsPage {
     display: flex;
-    padding: 20px;
+    margin-top: 180px;
+    height: 600px;
+    width: 1200px;
+    border: 1px solid black;
 
-    .user {
-      padding-left: 30px;
+    .friendsPage_content {
+      display: flex;
+      padding: 20px;
+
+      .user {
+        padding-left: 30px;
+      }
     }
   }
 }

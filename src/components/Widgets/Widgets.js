@@ -14,14 +14,15 @@ export const Widgets = () => {
         <h4>{heading}</h4>
         <p>{subtitle}</p>
       </div>
-
     </div>
   )
   return (
     <div className='widgets'>
       <div className='widgets_header'>
         <h2>News</h2>
-        <InfoIcon />
+        <div className='infoIcon'>
+          <InfoIcon />
+        </div>
       </div>
       {newsArticle('Welcome aboard', 'Mechanism is back...')}
       {newsArticle('Top News', 'reading...')}

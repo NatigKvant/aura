@@ -94,7 +94,6 @@ export const App = () => {
             />
             <Switch>
               <div className='app_body' onClick={closePopups}>
-                <Route path='/feed' render={() => <Feed />} />
                 <Route path='/messages' render={() => <SampleChat users={users}
                                                                   messages={messages}
                                                                   setMessages={setMessages}
