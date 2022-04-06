@@ -1,17 +1,23 @@
+// @ts-ignore
 import React, { useEffect, useState } from 'react'
 import './App.scss'
-import { Header } from './components/Header/Header'
-import { Feed } from './components/Feed/Feed'
-import { Login } from './components/Login/Login'
+// @ts-ignore
+import { Header } from './components/Header/Header.tsx'
+// @ts-ignore
+import { Login } from './components/Login/Login.tsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, logout, selectUser } from './features/userSlice'
-import { db, auth } from './components/Firebase/firebase'
-import { HomePage } from './components/Home/HomePage'
+// @ts-ignore
+import { db, auth } from './components/Firebase/firebase.ts'
+// @ts-ignore
+import { HomePage } from './components/Home/HomePage.tsx'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
-import { FriendsPage } from './components/FriendsPage/FriendsPage'
-import { SampleChat } from './components/SampleChat/SampleChat'
+// @ts-ignore
+import { FriendsPage } from './components/FriendsPage/FriendsPage.tsx'
+// @ts-ignore
+import { SampleChat } from './components/SampleChat/SampleChat.tsx'
 
-export const App = () => {
+export const App: React.FC = () => {
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
   const [messages, setMessages] = useState([])
@@ -20,8 +26,6 @@ export const App = () => {
   const [chatOpen, setChatOpen] = useState(false)
   const [leftMenuOpen, setLeftMenuOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
-
-  console.log(chatOpen)
 
   useEffect(() => {
     (async () => {
@@ -53,7 +57,6 @@ export const App = () => {
   useEffect(() => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        // user is Logged In
         dispatch(
           login({
             email: userAuth.email,
@@ -93,14 +96,16 @@ export const App = () => {
               setNotificationsOpen={setNotificationsOpen}
             />
             <Switch>
-              <div className='app_body' onClick={closePopups}>
-                <Route path='/messages' render={() => <SampleChat users={users}
-                                                                  messages={messages}
-                                                                  setMessages={setMessages}
-                                                                  user={user} />} />
-                <Route path='/homepage' render={() => <HomePage />} />
-                <Route path='/friendspage' render={() => <FriendsPage users={users} />} />
-              </div>
+              <React.Fragment>
+                <div className='app_body' onClick={closePopups}>
+                  <Route path='/messages' render={() => <SampleChat users={users}
+                                                                    messages={messages}
+                                                                    setMessages={setMessages}
+                                                                    user={user} />} />
+                  <Route path='/homepage' render={() => <HomePage />} />
+                  <Route path='/friendspage' render={() => <FriendsPage users={users} />} />
+                </div>
+              </React.Fragment>
             </Switch>
           </div>
         )}

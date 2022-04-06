@@ -1,7 +1,8 @@
+// @ts-ignore
 import React from 'react'
 import './Notifications.scss'
 
-export const Notifications = ({ notificationsOpen }) => {
+export const Notifications: React.FC = ({ notificationsOpen }) => {
   return (
     <div className={notificationsOpen ? 'notifications' : 'none'}
          onClick={(e) => e.stopPropagation()}

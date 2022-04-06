@@ -1,11 +1,14 @@
+// @ts-ignore
 import React, { useState } from 'react'
 import './Login.scss'
-import { auth } from '../Firebase/firebase'
+// @ts-ignore
+import { auth } from '../Firebase/firebase.ts'
 import { useDispatch } from 'react-redux'
 import { login } from '../../features/userSlice'
-import firebase from 'firebase/compat/app'
+// @ts-ignore
+import { fireBase } from '../Firebase/firebase.ts'
 
-export const Login = () => {
+export const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -14,7 +17,7 @@ export const Login = () => {
   const dispatch = useDispatch()
 
   const delay = (wait = 1000) => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
         resolve()
       }, wait)
@@ -37,9 +40,9 @@ export const Login = () => {
           displayName,
           profileUrl: photoURL,
         }))
-        firebase.firestore()
+        fireBase.firestore()
           .collection('users')
-          .doc(firebase.auth().currentUser.uid)
+          .doc(fireBase.auth().currentUser.uid)
           .update({
             status: 'Online',
           })
@@ -51,9 +54,9 @@ export const Login = () => {
     auth.createUserWithEmailAndPassword(email, password)
       .then((userAuth) => {
         if (userAuth != null) {
-          firebase.firestore()
+          fireBase.firestore()
             .collection('users')
-            .doc(firebase.auth().currentUser.uid)
+            .doc(fireBase.auth().currentUser.uid)
             .set({
               name,
               email,

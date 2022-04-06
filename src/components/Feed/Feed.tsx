@@ -1,19 +1,23 @@
+// @ts-ignore
 import React, { useEffect, useState, useCallback } from 'react'
 import './Feed.scss'
 import CreateIcon from '@material-ui/icons/Create'
-import InputOption from './InputOption'
+// @ts-ignore
+import InputOption from './InputOption.tsx'
 import ImageIcon from '@material-ui/icons/Image'
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions'
 import EventNoteIcon from '@material-ui/icons/EventNote'
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay'
-import Post from './Post'
-import { db } from '../Firebase/firebase'
+// @ts-ignore
+import Post from './Post.tsx'
+// @ts-ignore
+import { db } from '../Firebase/firebase.ts'
 import firebase from 'firebase/compat/app'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/userSlice'
 import TextField from '@material-ui/core/TextField'
 
-export const Feed = () => {
+export const Feed: React.FC = () => {
   const user = useSelector(selectUser)
   const [input, setInput] = useState('')
   const [posts, setPosts] = useState([])

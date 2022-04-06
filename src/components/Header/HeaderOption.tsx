@@ -1,10 +1,11 @@
+// @ts-ignore
 import React from 'react'
 import './Header.scss'
 import { Avatar } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/userSlice'
 
-export const HeaderOption = ({ avatar, Icon, title, onClick }) => {
+export const HeaderOption: React.FC = ({ avatar, Icon, title, onClick }) => {
   const user = useSelector(selectUser)
 
   return (

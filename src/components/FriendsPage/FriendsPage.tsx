@@ -1,9 +1,10 @@
+// @ts-ignore
 import React from 'react'
 import './FriendsPage.scss'
 import { Avatar } from '@material-ui/core'
 import { styled } from '@mui/material/styles'
 import Badge from '@mui/material/Badge'
-
+// @ts-ignore
 export const StyledBadge = styled(Badge)(({ theme, status }) => ({
   '& .MuiBadge-badge': status === 'Online' ? {
     backgroundColor: '#44b700',
@@ -17,7 +18,7 @@ export const StyledBadge = styled(Badge)(({ theme, status }) => ({
 
 }))
 
-export const FriendsPage = ({ users }) => {
+export const FriendsPage: React.FC = ({ users }) => {
   return (
     <div className='friendsPage_container'>
       <div className='friendsPage'>
@@ -29,6 +30,7 @@ export const FriendsPage = ({ users }) => {
                 overlap='circular'
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 variant='dot'
+                // @ts-ignore
                 status={user.status}
               >
                 <Avatar src={user.photoUrl} />

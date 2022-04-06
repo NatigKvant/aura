@@ -1,9 +1,10 @@
+// @ts-ignore
 import React from 'react'
 import './Widgets.scss'
 import InfoIcon from '@material-ui/icons/Info'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 
-export const Widgets = () => {
+export const Widgets: React.FC = () => {
 
   const newsArticle = (heading, subtitle) => (
     <div className='widgets_article'>

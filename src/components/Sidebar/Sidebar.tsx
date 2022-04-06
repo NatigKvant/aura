@@ -1,10 +1,11 @@
+// @ts-ignore
 import React from 'react'
 import './Sidebar.scss'
 import { Avatar } from '@material-ui/core'
 import { selectUser } from '../../features/userSlice'
 import { useSelector } from 'react-redux'
 
-export const Sidebar = () => {
+export const Sidebar: React.FC = () => {
   const user = useSelector(selectUser)
 
   return (

@@ -1,13 +1,15 @@
+// @ts-ignore
 import React, { forwardRef } from 'react'
 import './Feed.scss'
 import { Avatar } from '@material-ui/core'
-import InputOption from './InputOption'
+// @ts-ignore
+import InputOption from './InputOption.tsx'
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
 import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined'
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined'
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined'
 
-const Post = forwardRef(({ name, description, message, photoUrl }, ref) => {
+const Post: React.FC = forwardRef<HTMLInputElement>(({ name, description, message, photoUrl }: any, ref) => {
   return (
     <div ref={ref} className='post'>
       <div className='post_header'>

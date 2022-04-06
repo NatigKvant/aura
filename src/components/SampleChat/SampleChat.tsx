@@ -1,14 +1,17 @@
+// @ts-ignore
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import './SampleChat.scss'
-import { db } from '../Firebase/firebase'
-import firebase from 'firebase/compat/app'
-import { useSelector } from 'react-redux'
-import { selectUser } from '../../features/userSlice'
-import SampleMessage from './SampleMessage'
+// @ts-ignore
+import { db } from '../Firebase/firebase.ts'
+// @ts-ignore
+import { fireBase } from '../Firebase/firebase.ts'
+// @ts-ignore
+import SampleMessage from './SampleMessage.tsx'
 import { Avatar } from '@material-ui/core'
 import { styled } from '@mui/material/styles'
 import Badge from '@mui/material/Badge'
 
+// @ts-ignore
 export const StyledBadge = styled(Badge)(({ theme, users }) => ({
   '& .MuiBadge-badge': users ? {
     backgroundColor: '#44b700',
@@ -21,7 +24,7 @@ export const StyledBadge = styled(Badge)(({ theme, users }) => ({
   },
 }))
 
-export const SampleChat = ({ users, messages, setMessages, user }) => {
+export const SampleChat: React.FC = ({ users, messages, setMessages, user }) => {
   const messagesEndRef = useRef(null)
   const [input, setInput] = useState('')
 
@@ -56,7 +59,7 @@ export const SampleChat = ({ users, messages, setMessages, user }) => {
         description: user.email,
         message: input,
         photoUrl: user.photoUrl || '',
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        timestamp: fireBase.firestore.FieldValue.serverTimestamp(),
         userId: user.uid,
       })
       setInput('')
@@ -77,6 +80,7 @@ export const SampleChat = ({ users, messages, setMessages, user }) => {
                 overlap='circular'
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 variant='dot'
+                // @ts-ignore
                 users={users}
               >
                 <Avatar src={user.photoUrl} />

@@ -1,10 +1,13 @@
+// @ts-ignore
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import './Chat.scss'
-import { db } from '../Firebase/firebase'
+// @ts-ignore
+import { db } from '../Firebase/firebase.ts'
 import firebase from 'firebase/compat/app'
-import Message from './Message'
+// @ts-ignore
+import Message from './Message.tsx'
 
-export const Chat = ({ chatOpen, messages, setMessages, user }) => {
+export const Chat: React.FC = ({ chatOpen, messages, setMessages, user }) => {
 
   const messagesEndRef = useRef(null)
   const [input, setInput] = useState('')

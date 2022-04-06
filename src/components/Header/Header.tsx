@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useEffect, useState, useCallback } from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
@@ -21,15 +22,20 @@ import './Header.scss'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../features/userSlice'
-import { auth } from '../Firebase/firebase'
-import { HeaderOption } from './HeaderOption'
+// @ts-ignore
+import { auth } from '../Firebase/firebase.ts'
+// @ts-ignore
+import { HeaderOption } from './HeaderOption.tsx'
 import Stack from '@mui/material/Stack'
-import DynamicFeedIcon from '@mui/icons-material/DynamicFeed'
 import ForumIcon from '@mui/icons-material/Forum'
-import firebase from 'firebase/compat/app'
-import { Notifications } from '../Notifications/Notifications'
-import { LeftMenu } from '../LeftMenu/LeftMenu'
-import { Chat } from '../Chat/Chat'
+// @ts-ignore
+import { fireBase } from '../Firebase/firebase.ts'
+// @ts-ignore
+import { Notifications } from '../Notifications/Notifications.tsx'
+// @ts-ignore
+import { LeftMenu } from '../LeftMenu/LeftMenu.tsx'
+// @ts-ignore
+import { Chat } from '../Chat/Chat.tsx'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -71,17 +77,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export const Header = ({
-                         messages,
-                         setMessages,
-                         user,
-                         chatOpen,
-                         leftMenuOpen,
-                         notificationsOpen,
-                         setChatOpen,
-                         setLeftMenuOpen,
-                         setNotificationsOpen,
-                       }) => {
+export const Header: React.FC = ({
+                                   messages,
+                                   setMessages,
+                                   user,
+                                   chatOpen,
+                                   leftMenuOpen,
+                                   notificationsOpen,
+                                   setChatOpen,
+                                   setLeftMenuOpen,
+                                   setNotificationsOpen,
+                                 }) => {
   const dispatch = useDispatch()
   const [badgeCountMessages, setBadgeCountMessages] = useState(0)
   const [badgeCountNotifications, setBadgeCountNotifications] = useState(0)
@@ -109,9 +115,9 @@ export const Header = ({
   }, [leftMenuOpen, setLeftMenuOpen])
 
   const logoutOfApp = useCallback(async () => {
-    await firebase.firestore()
+    await fireBase.firestore()
       .collection('users')
-      .doc(firebase.auth().currentUser.uid)
+      .doc(fireBase.auth().currentUser.uid)
       .update({
         status: 'Offline',
       })

@@ -13,9 +13,9 @@
       position: sticky;
       top: 65px;
       background-color: white;
-      padding: 20px;
       margin-bottom: 20px;
-      min-width: 400px;
+      min-width: 200px;
+      width: 100%;
       border-radius: 0 0 10px 10px;
       z-index: 1;
       border: 1px solid lightgrey;
@@ -25,7 +25,9 @@
         display: flex;
         padding: 20px 0 0 0;
         color: gray;
-        width: 100%;
+        width: 380px;
+        max-width: 100%;
+        margin-left: 10px;
       }
 
       .feed_input > form {
@@ -117,12 +119,40 @@
 
 @media only screen and (max-width: 1600px) {
   .feedContainer {
-    transform: scale(0.98);
+
   }
 }
 
-@media only screen and (max-width: 1279px) {
+@media only screen and (max-width: 1280px) {
+
   .feedContainer {
-    transform: scale(0.9);
+    width: 100%;
+
+    .feed {
+      .feed_inputContainer {
+        .feed_input {
+          width: 360px;
+          max-width: 100%;
+        }
+
+        .feed_inputOptions {
+          .inputOption {
+            width: 75px;
+            transform: scale(0.8);
+          }
+        }
+      }
+    }
+
+    .post {
+      min-width: 300px;
+
+      .post_buttons {
+        transform: scale(0.9);
+      }
+    }
+  }
+  .post_container {
+    width: 100%;
   }
 }

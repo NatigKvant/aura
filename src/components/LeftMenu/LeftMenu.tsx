@@ -1,7 +1,8 @@
+// @ts-ignore
 import React from 'react'
 import './LeftMenu.scss'
 
-export const LeftMenu = ({ leftMenuOpen }) => {
+export const LeftMenu: React.FC = ({ leftMenuOpen }) => {
   return (
     <div className={leftMenuOpen ? 'leftMenu' : 'none'}
          onClick={(e) => e.stopPropagation()}

@@ -1,10 +1,10 @@
+// @ts-ignore
 import React, { forwardRef } from 'react'
 import { Avatar } from '@material-ui/core'
-import { useSelector } from 'react-redux'
-import { selectUser } from '../../features/userSlice'
 
-const Message = forwardRef(
-  ({ name, description, message, photoUrl, userId, user }, ref) => {
+
+const Message: React.FC = forwardRef<HTMLInputElement>(
+  ({ name, description, message, photoUrl, userId, user }: any, ref) => {
 
     return (
       <div
