@@ -16,6 +16,7 @@ import firebase from 'firebase/compat/app'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/userSlice'
 import TextField from '@material-ui/core/TextField'
+import FlipMove from 'react-flip-move'
 
 export const Feed: React.FC = () => {
   const user = useSelector(selectUser)
@@ -86,17 +87,19 @@ export const Feed: React.FC = () => {
             </div>
           </div>
           <div className='post_container'>
-          {posts.map(
-            ({ id, data: { name, description, message, photoUrl } }) => (
-              <Post
-                key={id}
-                name={name}
-                description={description}
-                message={message}
-                photoUrl={photoUrl}
-              />
-            ),
-          )}
+            <FlipMove>
+              {posts.map(
+                ({ id, data: { name, description, message, photoUrl } }) => (
+                  <Post
+                    key={id}
+                    name={name}
+                    description={description}
+                    message={message}
+                    photoUrl={photoUrl}
+                  />
+                ),
+              )}
+            </FlipMove>
           </div>
         </div>
       </div>

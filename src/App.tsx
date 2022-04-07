@@ -1,5 +1,6 @@
 // @ts-ignore
 import React, { useEffect, useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import './App.scss'
 // @ts-ignore
 import { Header } from './components/Header/Header.tsx'
@@ -79,16 +80,17 @@ export const App: React.FC = () => {
     setLeftMenuOpen(false)
   }
 
+
   return (
     <BrowserRouter>
       <div className='app'>
         {!user ? (
           <>
-          <Switch>
-            <Route path='/login' render={() => <Login/>} />
-            <Route path='/register' render={() => <Register/>} />
-          </Switch>
-
+            <Switch>
+              <Route path='/login' render={() => <Login />} />
+              <Route exact path='/register' render={() => <Register />} />
+              <Redirect from='/' to='/login' />
+            </Switch>
           </>
         ) : (
           <div>

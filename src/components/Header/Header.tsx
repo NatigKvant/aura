@@ -153,8 +153,8 @@ export const Header: React.FC = ({
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: 'bottom',
+        horizontal: 'left',
       }}
       id={menuId}
       keepMounted
@@ -164,11 +164,16 @@ export const Header: React.FC = ({
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      sx={{
+        ml: 2,
+        mb: 0.5,
+      }}
     >
       <MenuItem onClick={handleMenuClose} to={'/homepage'} component={NavLink}>
         Profile
       </MenuItem>
-      <MenuItem onClick={logoutOfApp}>LOG OUT</MenuItem>
+
+      <MenuItem onClick={logoutOfApp} to={'/login'} component={NavLink}>Log Out</MenuItem>
     </Menu>
   )
 

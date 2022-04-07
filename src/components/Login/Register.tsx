@@ -6,7 +6,10 @@ import { auth } from '../Firebase/firebase.ts'
 import { useDispatch } from 'react-redux'
 import { login } from '../../features/userSlice'
 // @ts-ignore
-import { fireBase } from '../Firebase/firebase.ts'
+/*import { fireBase } from '../Firebase/firebase.ts'*/
+
+import firebase from 'firebase/compat/app'
+
 import IconButton from '@mui/material/IconButton'
 import { NavLink } from 'react-router-dom'
 
@@ -26,13 +29,49 @@ export const Register: React.FC = () => {
     })
   }
 
+  const signData = async () => {
+    await auth.signInWithEmailAndPassword(email, password).then(
+      ({
+         user: {
+           email,
+           uid,
+           displayName,
+           photoURL,
+         },
+       }) => {
+        dispatch(login({
+          email,
+          uid,
+          displayName,
+          profileUrl: photoURL,
+        }))
+        firebase.firestore()
+          .collection('users')
+          .doc(firebase.auth().currentUser.uid)
+          .update({
+            status: 'Online',
+          })
+
+      }).catch(error => alert(error))
+  }
+
+  const loginToApp = async (e) => {
+    e.preventDefault()
+    try {
+      await delay(3000)
+      await signData()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const createData = () => {
     auth.createUserWithEmailAndPassword(email, password)
       .then((userAuth) => {
         if (userAuth != null) {
-          fireBase.firestore()
+          firebase.firestore()
             .collection('users')
-            .doc(fireBase.auth().currentUser.uid)
+            .doc(firebase.auth().currentUser.uid)
             .set({
               name,
               email,
@@ -65,6 +104,7 @@ export const Register: React.FC = () => {
     await delay(3000)
     await createData()
   }
+
   return (
     <div className='login'>
       <img
@@ -93,14 +133,25 @@ export const Register: React.FC = () => {
                value={password}
                onChange={(e) => setPassword(e.target.value)}
         />
-        <button type='submit' onClick={register}>Register Now</button>
+        <IconButton
+          onClick={register}
+          size='small'
+          className='item'
+          sx={{
+            ml: 1,
+            mb: 0.5,
+            '&.MuiButtonBase-root:hover': {
+              bgcolor: 'transparent',
+            },
+          }}
+        >Register Now</IconButton>
       </form>
       <p>
         Are you member?{' '}
         <IconButton
           size='small'
           className='item'
-          to={'/login'}
+          to={'/'}
           component={NavLink}
           color='primary'
           sx={{

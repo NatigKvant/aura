@@ -1,5 +1,6 @@
 // @ts-ignore
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import './Login.scss'
 // @ts-ignore
 import { auth } from '../Firebase/firebase.ts'
@@ -15,6 +16,7 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
+  let history = useHistory()
 
   const delay = (wait = 1000) => {
     return new Promise<void>((resolve, reject) => {
@@ -54,6 +56,7 @@ export const Login: React.FC = () => {
     try {
       await delay(3000)
       await signData()
+      history.push('/homepage')
     } catch (e) {
       console.log(e)
     }
@@ -76,7 +79,20 @@ export const Login: React.FC = () => {
                value={password}
                onChange={(e) => setPassword(e.target.value)}
         />
-        <button type='submit' onClick={loginToApp}>Sign In</button>
+        <IconButton
+          size='small'
+          className='item'
+          onClick={loginToApp}
+          sx={{
+            ml: 1,
+            mb: 0.5,
+            '&.MuiButtonBase-root:hover': {
+              bgcolor: 'transparent',
+            },
+          }}
+        >
+          Sign In
+        </IconButton>
       </form>
       <p>
         Not a member?{' '}
