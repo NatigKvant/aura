@@ -112,7 +112,18 @@
 
     .post_buttons {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-around;
+      margin-top: 40px;
+
+      .inputButton {
+        background: white;
+        border: none;
+        cursor: pointer;
+        color: grey;
+        :hover {
+          color: blue;
+        }
+      }
     }
   }
 }

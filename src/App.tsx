@@ -16,6 +16,8 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { FriendsPage } from './components/FriendsPage/FriendsPage.tsx'
 // @ts-ignore
 import { SampleChat } from './components/SampleChat/SampleChat.tsx'
+// @ts-ignore
+import { Register } from './components/Login/Register.tsx'
 
 export const App: React.FC = () => {
   const user = useSelector(selectUser)
@@ -81,7 +83,13 @@ export const App: React.FC = () => {
     <BrowserRouter>
       <div className='app'>
         {!user ? (
-          <Login />
+          <>
+          <Switch>
+            <Route path='/login' render={() => <Login/>} />
+            <Route path='/register' render={() => <Register/>} />
+          </Switch>
+
+          </>
         ) : (
           <div>
             <Header

@@ -1,5 +1,5 @@
 // @ts-ignore
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState, useCallback, useEffect } from 'react'
 import './Feed.scss'
 import { Avatar } from '@material-ui/core'
 // @ts-ignore
@@ -8,8 +8,36 @@ import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
 import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined'
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined'
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined'
+import Badge from '@mui/material/Badge'
+import IconButton from '@mui/material/IconButton'
+import { db } from '../Firebase/firebase'
 
 const Post: React.FC = forwardRef<HTMLInputElement>(({ name, description, message, photoUrl }: any, ref) => {
+
+  const [likesCount, setLikesCount] = useState(0)
+
+  const handleLike = useCallback(() => {
+    setLikesCount(likesCount + 1)
+  }, [likesCount])
+
+
+  useEffect(() => {
+    const raw = localStorage.getItem('likesCount') || null
+    setLikesCount(JSON.parse(raw))
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('likesCount', JSON.stringify(likesCount))
+
+    return () => {
+      console.log('unsubscribed')
+    }
+  }, [likesCount])
+
+  setTimeout(() => {
+    localStorage.setItem('likesCount', JSON.stringify(0))
+  }, 60000)
+
   return (
     <div ref={ref} className='post'>
       <div className='post_header'>
@@ -25,10 +53,20 @@ const Post: React.FC = forwardRef<HTMLInputElement>(({ name, description, messag
       </div>
 
       <div className='post_buttons'>
-        <InputOption Icon={ThumbUpAltOutlinedIcon} title='Like' color='gray' />
-        <InputOption Icon={ChatOutlinedIcon} title='Comment' color='gray' />
-        <InputOption Icon={ShareOutlinedIcon} title='Share' color='gray' />
-        <InputOption Icon={SendOutlinedIcon} title='Send' color='gray' />
+        <Badge badgeContent={likesCount} color='primary'>
+          <button className='inputButton' onClick={handleLike}>
+            <InputOption Icon={ThumbUpAltOutlinedIcon} title='Like' />
+          </button>
+        </Badge>
+        <button className='inputButton'>
+          <InputOption Icon={ChatOutlinedIcon} title='Comment' />
+        </button>
+        <button className='inputButton'>
+          <InputOption Icon={ShareOutlinedIcon} title='Share' />
+        </button>
+        <button className='inputButton'>
+          <InputOption Icon={SendOutlinedIcon} title='Send' />
+        </button>
       </div>
     </div>
   )

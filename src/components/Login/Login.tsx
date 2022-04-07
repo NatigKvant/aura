@@ -7,13 +7,13 @@ import { useDispatch } from 'react-redux'
 import { login } from '../../features/userSlice'
 // @ts-ignore
 import { fireBase } from '../Firebase/firebase.ts'
+import ForumIcon from '@mui/icons-material/Forum'
+import IconButton from '@mui/material/IconButton'
+import { NavLink } from 'react-router-dom'
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
-  const [profilePic, setProfilePic] = useState('')
-
   const dispatch = useDispatch()
 
   const delay = (wait = 1000) => {
@@ -46,40 +46,7 @@ export const Login: React.FC = () => {
           .update({
             status: 'Online',
           })
-
       }).catch(error => alert(error))
-  }
-
-  const createData = () => {
-    auth.createUserWithEmailAndPassword(email, password)
-      .then((userAuth) => {
-        if (userAuth != null) {
-          fireBase.firestore()
-            .collection('users')
-            .doc(fireBase.auth().currentUser.uid)
-            .set({
-              name,
-              email,
-              status: 'Online',
-              userId: userAuth.user.uid,
-              photoUrl: profilePic,
-            })
-        }
-        userAuth.user
-          .updateProfile({
-            displayName: name,
-            photoURL: profilePic,
-          })
-          .then(() => {
-            dispatch(
-              login({
-                email: userAuth.user.email,
-                uid: userAuth.user.uid,
-                displayName: name,
-                photoUrl: profilePic,
-              }))
-          })
-      }).catch((error) => alert(error))
   }
 
   const loginToApp = async (e) => {
@@ -92,14 +59,6 @@ export const Login: React.FC = () => {
     }
   }
 
-
-  const register = async () => {
-    if (!name) {
-      return alert('Please enter a full name')
-    }
-    await delay(3000)
-    await createData()
-  }
   return (
     <div className='login'>
       <img
@@ -107,17 +66,6 @@ export const Login: React.FC = () => {
         alt=''
       />
       <form className='form'>
-        <input placeholder='Full Name'
-               type='text'
-               value={name}
-               onChange={(e) => setName(e.target.value)}
-        />
-
-        <input placeholder='Profile Url Image'
-               type='text'
-               onChange={(e) => setProfilePic(e.target.value)}
-        />
-
         <input value={email}
                onChange={(e) => setEmail(e.target.value)}
                placeholder='Email'
@@ -129,14 +77,25 @@ export const Login: React.FC = () => {
                onChange={(e) => setPassword(e.target.value)}
         />
         <button type='submit' onClick={loginToApp}>Sign In</button>
-
       </form>
-
       <p>
         Not a member?{' '}
-        <span className='login_register' onClick={register}>
-                Register Now
-            </span>
+        <IconButton
+          size='small'
+          className='item'
+          to={'/register'}
+          component={NavLink}
+          color='primary'
+          sx={{
+            ml: 1,
+            mb: 0.5,
+            '&.MuiButtonBase-root:hover': {
+              bgcolor: 'transparent',
+            },
+          }}
+        >
+          Register Now
+        </IconButton>
       </p>
     </div>
   )

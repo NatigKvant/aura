@@ -248,6 +248,7 @@ export const Header: React.FC = ({
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Stack spacing={1} direction='row'>
               <IconButton
+                size='large'
                 className='item'
                 to={'/homepage'}
                 component={NavLink}
@@ -257,6 +258,7 @@ export const Header: React.FC = ({
               </IconButton>
 
               <IconButton
+                size='large'
                 className='item'
                 to={'/friendspage'}
                 component={NavLink}
@@ -266,6 +268,7 @@ export const Header: React.FC = ({
               </IconButton>
 
               <IconButton
+                size='large'
                 className='item'
                 to={'/messages'}
                 component={NavLink}
