@@ -4,6 +4,7 @@
   width: 300px;
   max-width: 100%;
   padding-bottom: 30px;
+  padding-right: 15px;
 
   .sidebar_content {
     position: sticky;
@@ -11,23 +12,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid lightgray;
-    border-bottom: 0;
     border-radius: 10px 10px 10px 10px;
-    background-color: white;
+    box-shadow: 0px 1px 2px #aaaa98;
+    background: rgba(23, 22, 22, 0.15);
     padding-bottom: 40px;
+    width: 100%;
+    border: 1px solid grey;
+
+    .sidebar_avatar {
+      margin-top: -20px;
+    }
 
     h4 {
-      color: gray;
+      color: #ff6200;
       font-size: 12px;
     }
 
     h2 {
+      color: #ff6200;
       font-size: 18px;
     }
 
     img {
-      margin-bottom: -20px;
       width: 100%;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
@@ -41,8 +47,8 @@
     .sidebar_stats {
       padding: 10px;
       margin-bottom: 10px;
-      border: 1px solid lightgray;
-      background-color: white;
+      border: 1px solid grey;
+      background: rgba(23, 22, 22, 0.15);
       border-radius: 10px 10px 10px 10px;
       margin-top: 20px;
       width: 250px;
@@ -53,14 +59,15 @@
         justify-content: space-between;
 
         p {
-          color: gray;
+          color: #ff6200;
           font-size: 13px;
           font-weight: 600;
+          padding-bottom: 10px;
         }
 
         .sidebar_statNumber {
           font-weight: bold;
-          color: #0a66c2 !important;
+          color: #ff6200;
         }
       }
     }
@@ -68,16 +75,18 @@
     .sidebar_bottom {
       text-align: left;
       padding: 10px;
-      border: 1px solid lightgray;
-      background-color: white;
+      box-shadow: 0px 1px 2px #aaaa98;
+      background: rgba(23, 22, 22, 0.15);
       border-radius: 10px;
       margin-top: 10px;
       width: 250px;
+      border: 1px solid grey;
 
 
       p {
         font-size: 13px;
         padding-bottom: 10px;
+        color: #ff6200;
       }
     }
   }

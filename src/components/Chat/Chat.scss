@@ -10,12 +10,13 @@
 
   .middleSmallChat {
     position: relative;
-    background: #f9fbff;
+    background: #101010;
     width: 100%;
     opacity: 0.85;
     max-width: 100%;
     height: 500px;
     overflow-y: auto;
+    border: 1px solid grey;
 
     .incomingMessages {
       position: absolute;
@@ -30,8 +31,9 @@
     width: 100%;
     height: 45px;
     bottom: 0;
-    background: #f9fbff;
+    background-image: linear-gradient(280deg, black 100%, #b87360 94%);
     border-radius: 0 0 10px 10px;
+    border-top: 1px solid grey;
 
     .smallChatInput {
       padding: 7px;
@@ -39,16 +41,16 @@
       left: 5%;
       border: 0;
       top: 13px;
-      background: #f9fbff;
+      background-image: linear-gradient(280deg, black 10%, #312f2f 94%);
       color: #79c7c5;
       border-radius: 0 0 10px 10px;
 
       &::placeholder {
-        color: #a1e2d9;
+        color: #3b3b3b;
       }
 
       &:focus {
-        color: #777;
+        color: #ff6200;
         outline: 0;
       }
     }
@@ -60,11 +62,12 @@
 }
 
 .message {
-  background-color: lightgrey;
+  background-color: #313131;
   padding: 5px;
   margin-bottom: 5px;
   border-radius: 10px;
   width: 100%;
+  border: 1px solid grey;
 
   .message_header {
     display: flex;
@@ -95,18 +98,19 @@
     overflow-wrap: anywhere;
 
     p {
-      color: black;
+      color: #ff6200;
     }
   }
 }
 
 .myChatMessage {
-  background-color: lightgrey;
+  background-color: #313131;
   padding: 5px;
   margin-bottom: 5px;
   margin-left: 130px;
   border-radius: 10px;
   width: 100%;
+  border: 1px solid grey;
 
   .message_header {
     display: flex;
@@ -124,20 +128,20 @@
 
     p {
       font-size: 12px;
+      color: #ff6200;
     }
 
     h2 {
       font-size: 15px;
       margin-top: 10px;
-      color: black;
+      color: #ff6200;
     }
   }
 
   .message_body {
     overflow-wrap: anywhere;
-
     p {
-      color: black;
+      color: #ff6200;
     }
   }
 }

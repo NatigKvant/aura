@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-nocheck
 import React from 'react'
 import './Header.scss'
 import { Avatar } from '@material-ui/core'

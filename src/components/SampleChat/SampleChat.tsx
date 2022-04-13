@@ -1,17 +1,14 @@
-// @ts-ignore
+// @ts-nocheck
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import './SampleChat.scss'
-// @ts-ignore
-import { db } from '../Firebase/firebase.ts'
-// @ts-ignore
-import { fireBase } from '../Firebase/firebase.ts'
-// @ts-ignore
-import SampleMessage from './SampleMessage.tsx'
+import { db } from '../Firebase/firebase'
+import { fireBase } from '../Firebase/firebase'
+import SampleMessage from './SampleMessage'
 import { Avatar } from '@material-ui/core'
 import { styled } from '@mui/material/styles'
 import Badge from '@mui/material/Badge'
+import { throttle } from 'lodash'
 
-// @ts-ignore
 export const StyledBadge = styled(Badge)(({ theme, users }) => ({
   '& .MuiBadge-badge': users ? {
     backgroundColor: '#44b700',
@@ -24,7 +21,14 @@ export const StyledBadge = styled(Badge)(({ theme, users }) => ({
   },
 }))
 
-export const SampleChat: React.FC = ({ users, messages, setMessages, user }) => {
+export interface SampleChatPropsType {
+  users: any
+  setMessages: (value: any) => void
+  messages: any
+  user: any
+}
+
+export const SampleChat: React.FC<SampleChatPropsType> = ({ users, messages, setMessages, user }) => {
   const messagesEndRef = useRef(null)
   const [input, setInput] = useState('')
 
@@ -47,13 +51,10 @@ export const SampleChat: React.FC = ({ users, messages, setMessages, user }) => 
           })),
         ),
       )
-    return () => {
-      console.log('unsubscribed')
-    }
-  }, [setMessages])
+  }, [])
 
-  const sendMessage = useCallback(async (e) => {
-    if (e.key === 'Enter' && input !== '') {
+  const sendMessage = useCallback(throttle(async () => {
+    if (input !== '') {
       await db.collection('messages').add({
         name: user.displayName,
         description: user.email,
@@ -64,14 +65,15 @@ export const SampleChat: React.FC = ({ users, messages, setMessages, user }) => 
       })
       setInput('')
     }
-  }, [user, input])
+  }, 3000, { 'trailing': false }), [user, input])
 
-  const handleSubmit = (e) => {
+  const messageHandleSubmit = (e) => {
     e.preventDefault()
+    sendMessage()
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={messageHandleSubmit}>
       <div className='container'>
         <div className='chatBox'>
           <div className='top-bar'>
@@ -80,7 +82,6 @@ export const SampleChat: React.FC = ({ users, messages, setMessages, user }) => 
                 overlap='circular'
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 variant='dot'
-                // @ts-ignore
                 users={users}
               >
                 <Avatar src={user.photoUrl} />
@@ -116,7 +117,6 @@ export const SampleChat: React.FC = ({ users, messages, setMessages, user }) => 
               placeholder='Type a message...'
               onChange={(e) => setInput(e.target.value)}
               value={input}
-              onKeyPress={sendMessage}
             />
           </div>
         </div>

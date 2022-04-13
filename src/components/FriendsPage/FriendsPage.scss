@@ -7,14 +7,17 @@
     margin-top: 180px;
     height: 600px;
     width: 1200px;
-    border: 1px solid black;
+    border: 1px solid #ff6200;
 
     .friendsPage_content {
       display: flex;
       padding: 20px;
+      width: 100%;
 
       .user {
-        padding-left: 30px;
+        width: 60px;
+        height: 100px;
+        color: #ff6200;
       }
     }
   }

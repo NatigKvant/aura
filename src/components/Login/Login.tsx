@@ -1,18 +1,21 @@
-// @ts-ignore
+// @ts-nocheck
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import './Login.scss'
-// @ts-ignore
-import { auth } from '../Firebase/firebase.ts'
+import { auth } from '../Firebase/firebase'
 import { useDispatch } from 'react-redux'
 import { login } from '../../features/userSlice'
-// @ts-ignore
-import { fireBase } from '../Firebase/firebase.ts'
-import ForumIcon from '@mui/icons-material/Forum'
+import { fireBase } from '../Firebase/firebase'
 import IconButton from '@mui/material/IconButton'
 import { NavLink } from 'react-router-dom'
+import { throttle } from 'lodash'
 
-export const Login: React.FC = () => {
+export interface LoginPropsType {
+  isLoading: boolean
+  setIsLoading: (value: boolean) => void
+}
+
+export const Login: React.FC<LoginPropsType> = ({ isLoading, setIsLoading }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
@@ -26,7 +29,7 @@ export const Login: React.FC = () => {
     })
   }
 
-  const signData = async () => {
+  const signData = (throttle(async () => {
     await auth.signInWithEmailAndPassword(email, password).then(
       ({
          user: {
@@ -49,11 +52,12 @@ export const Login: React.FC = () => {
             status: 'Online',
           })
       }).catch(error => alert(error))
-  }
+  }, 3000, { 'trailing': false }))
 
   const loginToApp = async (e) => {
     e.preventDefault()
     try {
+      setIsLoading(false)
       await delay(3000)
       await signData()
       history.push('/homepage')
@@ -101,12 +105,14 @@ export const Login: React.FC = () => {
           className='item'
           to={'/register'}
           component={NavLink}
-          color='primary'
+
           sx={{
             ml: 1,
             mb: 0.5,
+            color: '#ff6200',
             '&.MuiButtonBase-root:hover': {
               bgcolor: 'transparent',
+              color: 'red',
             },
           }}
         >

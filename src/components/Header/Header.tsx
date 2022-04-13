@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-nocheck
 import React, { useEffect, useState, useCallback } from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
@@ -22,20 +22,16 @@ import './Header.scss'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../features/userSlice'
-// @ts-ignore
-import { auth } from '../Firebase/firebase.ts'
-// @ts-ignore
-import { HeaderOption } from './HeaderOption.tsx'
+import { auth } from '../Firebase/firebase'
+import { HeaderOption } from './HeaderOption'
 import Stack from '@mui/material/Stack'
 import ForumIcon from '@mui/icons-material/Forum'
-// @ts-ignore
-import { fireBase } from '../Firebase/firebase.ts'
-// @ts-ignore
-import { Notifications } from '../Notifications/Notifications.tsx'
-// @ts-ignore
-import { LeftMenu } from '../LeftMenu/LeftMenu.tsx'
-// @ts-ignore
-import { Chat } from '../Chat/Chat.tsx'
+import { fireBase } from '../Firebase/firebase'
+import { Notifications } from '../Notifications/Notifications'
+import { LeftMenu } from '../LeftMenu/LeftMenu'
+import { Chat } from '../Chat/Chat'
+import { makeStyles } from '@mui/styles'
+import LogoutIcon from '@mui/icons-material/Logout'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -77,20 +73,42 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export const Header: React.FC = ({
-                                   messages,
-                                   setMessages,
-                                   user,
-                                   chatOpen,
-                                   leftMenuOpen,
-                                   notificationsOpen,
-                                   setChatOpen,
-                                   setLeftMenuOpen,
-                                   setNotificationsOpen,
-                                 }) => {
+export const useStyles = makeStyles((theme: Theme) => ({
+  menuPaper: {
+    backgroundColor: 'rgba(23, 22, 22, 0.15)',
+    color: '#ff6200',
+    border: '1px solid grey',
+  },
+}))
+
+export interface HeaderPropsType {
+  messages: any
+  setMessages: (value: any) => void
+  user: any
+  chatOpen: boolean
+  leftMenuOpen: boolean
+  notificationsOpen: boolean
+  setChatOpen: (value: any) => void
+  setLeftMenuOpen: (value: any) => void
+  setNotificationsOpen: (value: any) => void
+}
+
+export const Header: React.FC<HeaderPropsType> = ({
+                                                    messages,
+                                                    setMessages,
+                                                    user,
+                                                    chatOpen,
+                                                    leftMenuOpen,
+                                                    notificationsOpen,
+                                                    setChatOpen,
+                                                    setLeftMenuOpen,
+                                                    setNotificationsOpen,
+                                                  }) => {
   const dispatch = useDispatch()
   const [badgeCountMessages, setBadgeCountMessages] = useState(0)
   const [badgeCountNotifications, setBadgeCountNotifications] = useState(0)
+
+  const classes = useStyles()
 
   useEffect(() => {
     setBadgeCountNotifications(1)
@@ -168,12 +186,42 @@ export const Header: React.FC = ({
         ml: 2,
         mb: 0.5,
       }}
+      classes={{ paper: classes.menuPaper }}
+
     >
-      <MenuItem onClick={handleMenuClose} to={'/homepage'} component={NavLink}>
-        Profile
+      <MenuItem to={'/homepage'}
+                component={NavLink}
+                className='menuItem'
+                onClick={handleMenuClose}
+      >
+        <IconButton
+          size='large'
+          aria-label='account of current user'
+          aria-controls='primary-search-account-menu'
+          aria-haspopup='true'
+          color='inherit'
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
       </MenuItem>
 
-      <MenuItem onClick={logoutOfApp} to={'/login'} component={NavLink}>Log Out</MenuItem>
+      <MenuItem onClick={logoutOfApp}
+                to={'/login'}
+                component={NavLink}
+                className='menuItem'
+      >
+        <IconButton
+          size='large'
+          aria-label='account of current user'
+          aria-controls='primary-search-account-menu'
+          aria-haspopup='true'
+          color='inherit'
+        >
+          <LogoutIcon />
+        </IconButton>
+        <p>Log Out</p>
+      </MenuItem>
     </Menu>
   )
 
@@ -193,8 +241,13 @@ export const Header: React.FC = ({
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      classes={{ paper: classes.menuPaper }}
     >
-      <MenuItem to={'/messages'} component={NavLink}>
+      <MenuItem to={'/messages'}
+                component={NavLink}
+                onClick={handleMobileMenuClose}
+                className='menuItem'
+      >
         <IconButton size='large'
                     aria-label='show 4 new mails'
                     color='inherit'
@@ -205,7 +258,11 @@ export const Header: React.FC = ({
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem to={'/homepage'}
+                component={NavLink}
+                onClick={handleMobileMenuClose}
+                className='menuItem'
+      >
         <IconButton
           size='large'
           aria-label='account of current user'
@@ -217,12 +274,28 @@ export const Header: React.FC = ({
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+      <MenuItem onClick={logoutOfApp}
+                to={'/login'}
+                component={NavLink}
+                className='menuItem'
+      >
+        <IconButton
+          size='large'
+          aria-label='account of current user'
+          aria-controls='primary-search-account-menu'
+          aria-haspopup='true'
+          color='inherit'
+        >
+          <LogoutIcon />
+        </IconButton>
+        <p> Log Out</p>
+      </MenuItem>
     </Menu>
   )
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position='fixed' style={{ backgroundColor: 'cadetblue' }}>
+      <AppBar position='fixed' className='header_bar'>
         <Toolbar>
           <IconButton
             onClick={handleLeftMenuOpen}

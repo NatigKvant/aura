@@ -1,11 +1,11 @@
-// @ts-ignore
+
 import React from 'react'
 import './FriendsPage.scss'
 import { Avatar } from '@material-ui/core'
 import { styled } from '@mui/material/styles'
 import Badge from '@mui/material/Badge'
-// @ts-ignore
-export const StyledBadge = styled(Badge)(({ theme, status }) => ({
+
+export const StyledBadge = styled(Badge)(({ theme, status }: any): any => ({
   '& .MuiBadge-badge': status === 'Online' ? {
     backgroundColor: '#44b700',
     color: '#44b700',
@@ -18,12 +18,24 @@ export const StyledBadge = styled(Badge)(({ theme, status }) => ({
 
 }))
 
-export const FriendsPage: React.FC = ({ users }) => {
+export interface FriendPagePropsType {
+  users: any
+}
+
+export interface Data {
+  name: string
+  email: string
+  status: string
+  userId: number | string
+  photoUrl: string
+}
+
+export const FriendsPage: React.FC<FriendPagePropsType> = ({ users }) => {
   return (
     <div className='friendsPage_container'>
       <div className='friendsPage'>
         <div className='friendsPage_content'>
-          {users.map((user) =>
+          {users.map((user: Data) =>
             <div className='user'
                  key={user.userId}>
               <StyledBadge

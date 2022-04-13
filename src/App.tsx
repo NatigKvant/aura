@@ -1,24 +1,30 @@
-// @ts-ignore
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import './App.scss'
-// @ts-ignore
-import { Header } from './components/Header/Header.tsx'
-// @ts-ignore
-import { Login } from './components/Login/Login.tsx'
+import { Header } from './components/Header/Header'
+import { Login } from './components/Login/Login'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, logout, selectUser } from './features/userSlice'
-// @ts-ignore
-import { db, auth } from './components/Firebase/firebase.ts'
-// @ts-ignore
-import { HomePage } from './components/Home/HomePage.tsx'
+import { db, auth } from './components/Firebase/firebase'
+import { HomePage } from './components/Home/HomePage'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
-// @ts-ignore
-import { FriendsPage } from './components/FriendsPage/FriendsPage.tsx'
-// @ts-ignore
-import { SampleChat } from './components/SampleChat/SampleChat.tsx'
-// @ts-ignore
-import { Register } from './components/Login/Register.tsx'
+import { FriendsPage } from 'components/FriendsPage/FriendsPage'
+import { SampleChat } from './components/SampleChat/SampleChat'
+import { Register } from './components/Login/Register'
+import { Spinner } from './components/Spinner/Spinner'
+
+export interface Message {
+  email: string
+  userId: number
+}
+
+export interface Data {
+  name: string
+  email: string
+  status: string
+  userId: number | string
+  photoUrl: string
+}
 
 export const App: React.FC = () => {
   const user = useSelector(selectUser)
@@ -30,13 +36,15 @@ export const App: React.FC = () => {
   const [leftMenuOpen, setLeftMenuOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
 
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
     (async () => {
       const usersRef = db.collection('users')
       const snapshot = await usersRef.get()
       snapshot.forEach(doc => {
-        const data = doc.data()
-        setUsers((users) => {
+        const data: Data = doc.data() as Data
+        setUsers((users: Data[]): any => {
           return [...users, data]
         })
       })
@@ -46,9 +54,9 @@ export const App: React.FC = () => {
   useEffect(() => {
     db.collection('messages')
       .orderBy('timestamp', 'asc')
-      .onSnapshot((snapshot) =>
+      .onSnapshot(({ docs }: any) =>
         setMessages(
-          snapshot.docs.map((doc) => ({
+          docs.map((doc: any): { data: Message; id: number | string } => ({
             id: doc.id,
             data: doc.data(),
           })),
@@ -59,6 +67,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     auth.onAuthStateChanged((userAuth) => {
+      setIsLoading(true)
       if (userAuth) {
         dispatch(
           login({
@@ -80,46 +89,49 @@ export const App: React.FC = () => {
     setLeftMenuOpen(false)
   }
 
-
   return (
     <BrowserRouter>
-      <div className='app'>
-        {!user ? (
-          <>
-            <Switch>
-              <Route path='/login' render={() => <Login />} />
-              <Route exact path='/register' render={() => <Register />} />
-              <Redirect from='/' to='/login' />
-            </Switch>
-          </>
-        ) : (
-          <div>
-            <Header
-              messages={messages}
-              setMessages={setMessages}
-              user={user}
-              chatOpen={chatOpen}
-              leftMenuOpen={leftMenuOpen}
-              notificationsOpen={notificationsOpen}
-              setChatOpen={setChatOpen}
-              setLeftMenuOpen={setLeftMenuOpen}
-              setNotificationsOpen={setNotificationsOpen}
-            />
-            <Switch>
-              <React.Fragment>
-                <div className='app_body' onClick={closePopups}>
-                  <Route path='/messages' render={() => <SampleChat users={users}
-                                                                    messages={messages}
-                                                                    setMessages={setMessages}
-                                                                    user={user} />} />
-                  <Route path='/homepage' render={() => <HomePage />} />
-                  <Route path='/friendspage' render={() => <FriendsPage users={users} />} />
-                </div>
-              </React.Fragment>
-            </Switch>
-          </div>
-        )}
-      </div>
+      {!isLoading ? <Spinner /> :
+        <div className='app'>
+          {!user ? (
+            <>
+              <Switch>
+                <Route path='/login' render={() => <Login isLoading={isLoading}
+                                                          setIsLoading={setIsLoading}
+                />} />
+                <Route exact path='/register' render={() => <Register />} />
+                <Redirect from='/' to='/login' />
+              </Switch>
+            </>
+          ) : (
+            <div>
+              <Header
+                messages={messages}
+                setMessages={setMessages}
+                user={user}
+                chatOpen={chatOpen}
+                leftMenuOpen={leftMenuOpen}
+                notificationsOpen={notificationsOpen}
+                setChatOpen={setChatOpen}
+                setLeftMenuOpen={setLeftMenuOpen}
+                setNotificationsOpen={setNotificationsOpen}
+              />
+              <Switch>
+                <React.Fragment>
+                  <div className='app_body' onClick={closePopups}>
+                    <Route path='/messages' render={() => <SampleChat users={users}
+                                                                      messages={messages}
+                                                                      setMessages={setMessages}
+                                                                      user={user} />} />
+                    <Route path='/homepage' render={() => <HomePage />} />
+                    <Route path='/friendspage' render={() => <FriendsPage users={users} />} />
+                  </div>
+                </React.Fragment>
+              </Switch>
+            </div>
+          )}
+        </div>
+      }
     </BrowserRouter>
   )
 }

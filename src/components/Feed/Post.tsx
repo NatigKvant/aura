@@ -1,16 +1,14 @@
-// @ts-ignore
-import React, { forwardRef, useState, useCallback, useEffect } from 'react'
+// @ts-nocheck
+import React, { forwardRef, useState, useEffect, useCallback } from 'react'
 import './Feed.scss'
 import { Avatar } from '@material-ui/core'
-// @ts-ignore
-import InputOption from './InputOption.tsx'
+import InputOption from './InputOption'
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
 import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined'
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined'
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined'
 import Badge from '@mui/material/Badge'
 import IconButton from '@mui/material/IconButton'
-import { db } from '../Firebase/firebase'
 
 const Post: React.FC = forwardRef<HTMLInputElement>(({ name, description, message, photoUrl }: any, ref) => {
 
@@ -22,21 +20,23 @@ const Post: React.FC = forwardRef<HTMLInputElement>(({ name, description, messag
 
 
   useEffect(() => {
-    const raw = localStorage.getItem('likesCount') || null
+    const raw = localStorage.getItem('likesCount')
     setLikesCount(JSON.parse(raw))
   }, [])
 
   useEffect(() => {
     localStorage.setItem('likesCount', JSON.stringify(likesCount))
-
-    return () => {
-      console.log('unsubscribed')
-    }
   }, [likesCount])
 
   setTimeout(() => {
     localStorage.setItem('likesCount', JSON.stringify(0))
   }, 60000)
+
+  // const now = new Date()
+  // const expire = new Date((now.getTime() + 600_000))
+  // if (new Date() > expire) {
+  //   localStorage.setItem('likesCount', JSON.stringify(0))
+  // }
 
   return (
     <div ref={ref} className='post'>
@@ -47,26 +47,41 @@ const Post: React.FC = forwardRef<HTMLInputElement>(({ name, description, messag
           <p>{description}</p>
         </div>
       </div>
-
       <div className='post_body'>
         <p>{message}</p>
       </div>
-
       <div className='post_buttons'>
         <Badge badgeContent={likesCount} color='primary'>
-          <button className='inputButton' onClick={handleLike}>
+          <IconButton className='inputButton'
+                      size='small'
+                      aria-label='show more'
+                      aria-haspopup='true'
+                      color='inherit'
+                      onClick={handleLike}>
             <InputOption Icon={ThumbUpAltOutlinedIcon} title='Like' />
-          </button>
+          </IconButton>
         </Badge>
-        <button className='inputButton'>
+        <IconButton className='inputButton'
+                    size='small'
+                    aria-label='show more'
+                    aria-haspopup='true'
+                    color='inherit'>
           <InputOption Icon={ChatOutlinedIcon} title='Comment' />
-        </button>
-        <button className='inputButton'>
+        </IconButton>
+        <IconButton className='inputButton'
+                    size='small'
+                    aria-label='show more'
+                    aria-haspopup='true'
+                    color='inherit'>
           <InputOption Icon={ShareOutlinedIcon} title='Share' />
-        </button>
-        <button className='inputButton'>
+        </IconButton>
+        <IconButton className='inputButton'
+                    size='small'
+                    aria-label='show more'
+                    aria-haspopup='true'
+                    color='inherit'>
           <InputOption Icon={SendOutlinedIcon} title='Send' />
-        </button>
+        </IconButton>
       </div>
     </div>
   )

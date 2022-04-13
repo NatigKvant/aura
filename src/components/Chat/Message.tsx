@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-nocheck
 import React, { forwardRef } from 'react'
 import { Avatar } from '@material-ui/core'
 

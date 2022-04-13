@@ -1,10 +1,8 @@
-// @ts-ignore
+// @ts-nocheck
 import React from 'react'
-// @ts-ignore
 import ReactDOM from 'react-dom'
 import './index.css'
-// @ts-ignore
-import { App } from './App.tsx'
+import { App } from './App'
 import { store } from './app/store'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'

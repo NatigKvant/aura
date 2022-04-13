@@ -1,12 +1,8 @@
-// @ts-ignore
 import React from 'react'
 import './HomePage.scss'
-// @ts-ignore
-import { Sidebar } from '../Sidebar/Sidebar.tsx'
-// @ts-ignore
-import { Feed } from '../Feed/Feed.tsx'
-// @ts-ignore
-import { Widgets } from '../Widgets/Widgets.tsx'
+import { Sidebar } from '../Sidebar/Sidebar'
+import { Feed } from '../Feed/Feed'
+import { Widgets } from '../Widgets/Widgets'
 
 export const HomePage: React.FC = () => {
   return (

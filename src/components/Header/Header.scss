@@ -8,3 +8,15 @@
   color: gray;
   cursor: pointer;
 }
+
+.header_bar {
+  background-image: linear-gradient(280deg, black 10%, #b87360 94%);
+  border-bottom: 1px solid #1f1f1f;
+}
+
+.menuItem {
+  &:hover {
+    background: #dca157 !important;
+    color: black !important;
+  }
+}

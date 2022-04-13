@@ -1,11 +1,10 @@
-// @ts-ignore
+// @ts-nocheck
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import './Chat.scss'
-// @ts-ignore
-import { db } from '../Firebase/firebase.ts'
+import { db } from '../Firebase/firebase'
 import firebase from 'firebase/compat/app'
-// @ts-ignore
-import Message from './Message.tsx'
+import Message from './Message'
+import { throttle } from 'lodash'
 
 export const Chat: React.FC = ({ chatOpen, messages, setMessages, user }) => {
 
@@ -32,13 +31,11 @@ export const Chat: React.FC = ({ chatOpen, messages, setMessages, user }) => {
         ),
       )
     return () => {
-      console.log('unsubscribed')
     }
-  }, [setMessages])
+  }, [])
 
-  const sendMessage = useCallback(async (e) => {
-    if (e.key === 'Enter' && input !== '') {
-      console.log(user)
+  const sendMessage = useCallback(throttle(async () => {
+    if (input !== '') {
       await db.collection('messages').add({
         name: user.displayName,
         description: user.email,
@@ -49,14 +46,16 @@ export const Chat: React.FC = ({ chatOpen, messages, setMessages, user }) => {
       })
       setInput('')
     }
-  }, [user, input])
+  }, 3000, { 'trailing': false }), [user, input])
 
-  const handleSubmit = (e) => {
+  const messageHandleSubmit = (e) => {
     e.preventDefault()
+    sendMessage()
   }
 
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={messageHandleSubmit}>
       <div
         className={chatOpen ? 'chat' : 'none'}
         onClick={(e) => e.stopPropagation()}
@@ -90,7 +89,6 @@ export const Chat: React.FC = ({ chatOpen, messages, setMessages, user }) => {
               placeholder='Type a message...'
               onChange={(e) => setInput(e.target.value)}
               value={input}
-              onKeyPress={sendMessage}
             />
           </div>
         </div>

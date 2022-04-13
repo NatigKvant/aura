@@ -8,6 +8,7 @@
 
   p {
     margin-top: 20px;
+    color: white;
   }
 
   img {
@@ -16,7 +17,7 @@
     max-width: 100%;
     margin-top: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 -1px 43px -15px rgba(34, 60, 80, 1);
+    box-shadow: 0 3px 43px 10px rgba(34, 60, 80, 1);
     border-radius: 150px;
   }
 
@@ -32,9 +33,11 @@
       color: #fff;
       background-color: black;
       border-radius: 5px;
+      box-shadow: 0 3px 43px 10px rgba(34, 60, 80, 1);
+      border: 1px solid grey;
 
       &:hover {
-        color: red;
+        color: #ff1500;
       }
     }
 
@@ -46,7 +49,7 @@
       margin-bottom: 10px;
       border-radius: 5px;
       outline: none;
-
+      background-image: linear-gradient(280deg, black 0%, #fafafa 94%);
       &::placeholder {
         color: grey;
       }
@@ -55,6 +58,6 @@
 }
 
 .login_register {
-  color: red;
+  color: #ff8000;
   cursor: pointer;
 }
