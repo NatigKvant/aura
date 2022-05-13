@@ -11,7 +11,7 @@ import Post from './Post'
 import { db } from '../Firebase/firebase'
 import firebase from 'firebase/compat/app'
 import { useSelector } from 'react-redux'
-import { selectUser } from '../../features/userSlice'
+import { selectUser } from '../../features/authSlice'
 import TextField from '@material-ui/core/TextField'
 import { throttle } from 'lodash'
 

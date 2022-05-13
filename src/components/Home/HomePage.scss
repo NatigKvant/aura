@@ -8,21 +8,9 @@
 
   .homePageContent {
     display: flex;
-    width: 60%;
+    width: 1280px;
     height: calc(100% - 64px);
     margin-top: 64px;
     justify-content: space-evenly;
-  }
-}
-
-@media only screen and (max-width: 1280px) {
-  .homePage {
-    justify-content: center;
-    width: 100%;
-
-    .homePageContent {
-      width: 100vw;
-      justify-content: center;
-    }
   }
 }

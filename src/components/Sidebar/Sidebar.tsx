@@ -2,7 +2,7 @@
 import React from 'react'
 import './Sidebar.scss'
 import { Avatar } from '@material-ui/core'
-import { selectUser } from '../../features/userSlice'
+import { selectUser } from '../../features/authSlice'
 import { useSelector } from 'react-redux'
 
 export const Sidebar: React.FC = () => {

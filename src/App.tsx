@@ -4,7 +4,7 @@ import './App.scss'
 import { Header } from './components/Header/Header'
 import { Login } from './components/Login/Login'
 import { useDispatch, useSelector } from 'react-redux'
-import { login, logout, selectUser } from './features/userSlice'
+import { selectUser } from './features/authSlice'
 import { db, auth } from './components/Firebase/firebase'
 import { HomePage } from './components/Home/HomePage'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
@@ -12,6 +12,7 @@ import { FriendsPage } from 'components/FriendsPage/FriendsPage'
 import { SampleChat } from './components/SampleChat/SampleChat'
 import { Register } from './components/Login/Register'
 import { Spinner } from './components/Spinner/Spinner'
+import { useActions } from './hooks/useActions'
 
 export interface Message {
   email: string
@@ -29,9 +30,12 @@ export interface Data {
 export const App: React.FC = () => {
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
+  const { login, logout} = useActions()
+
+  console.log(user)
+
   const [messages, setMessages] = useState([])
   const [users, setUsers] = useState([])
-
   const [chatOpen, setChatOpen] = useState(false)
   const [leftMenuOpen, setLeftMenuOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -88,7 +92,7 @@ export const App: React.FC = () => {
     setChatOpen(false)
     setLeftMenuOpen(false)
   }
-
+  
   return (
     <BrowserRouter>
       {!isLoading ? <Spinner /> :

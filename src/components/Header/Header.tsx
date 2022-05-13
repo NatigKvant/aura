@@ -21,7 +21,6 @@ import PeopleIcon from '@mui/icons-material/People'
 import './Header.scss'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { logout } from '../../features/userSlice'
 import { auth } from '../Firebase/firebase'
 import { HeaderOption } from './HeaderOption'
 import Stack from '@mui/material/Stack'
@@ -32,6 +31,7 @@ import { LeftMenu } from '../LeftMenu/LeftMenu'
 import { Chat } from '../Chat/Chat'
 import { makeStyles } from '@mui/styles'
 import LogoutIcon from '@mui/icons-material/Logout'
+import { useActions } from '../../hooks/useActions'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -78,6 +78,10 @@ export const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: 'rgba(23, 22, 22, 0.15)',
     color: '#ff6200',
     border: '1px solid grey',
+    right: 'none !important',
+    bottom: 'auto !important',
+    pointerEvents: 'auto !important',
+    width: '200px'
   },
 }))
 
@@ -105,6 +109,8 @@ export const Header: React.FC<HeaderPropsType> = ({
                                                     setNotificationsOpen,
                                                   }) => {
   const dispatch = useDispatch()
+  const { logout } = useActions()
+
   const [badgeCountMessages, setBadgeCountMessages] = useState(0)
   const [badgeCountNotifications, setBadgeCountNotifications] = useState(0)
 
@@ -228,13 +234,13 @@ export const Header: React.FC<HeaderPropsType> = ({
   const mobileMenuId = 'primary-search-account-menu-mobile'
   const renderMobileMenu = (
     <Menu
-      anchorEl={mobileMoreAnchorEl}
+      /*anchorEl={mobileMoreAnchorEl}*/
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'right',
       }}
       id={mobileMenuId}
-      keepMounted
+      /*keepMounted*/
       transformOrigin={{
         vertical: 'top',
         horizontal: 'right',
@@ -265,9 +271,7 @@ export const Header: React.FC<HeaderPropsType> = ({
       >
         <IconButton
           size='large'
-          aria-label='account of current user'
-          aria-controls='primary-search-account-menu'
-          aria-haspopup='true'
+          aria-label='show 4 new mails'
           color='inherit'
         >
           <AccountCircle />

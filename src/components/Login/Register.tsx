@@ -1,32 +1,43 @@
 // @ts-nocheck
-import React, { useState } from 'react'
+import React from 'react'
 import './Login.scss'
 import { auth } from '../Firebase/firebase'
 import { useDispatch } from 'react-redux'
-import { login } from '../../features/userSlice'
 import { throttle } from 'lodash'
 import firebase from 'firebase/compat/app'
 import IconButton from '@mui/material/IconButton'
 import { NavLink } from 'react-router-dom'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useActions } from '../../hooks/useActions'
+
+export interface RegisterInputs {
+  name: string
+  photoUrl: string
+  email: string
+  password: string | number
+}
 
 export const Register: React.FC = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
-  const [profilePic, setProfilePic] = useState('')
 
   const dispatch = useDispatch()
+  const { login } = useActions()
 
-  const delay = (wait = 1000) => {
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        resolve()
-      }, wait)
-    })
-  }
+  const {
+    register,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm<RegisterInputs>({
+    mode: 'onChange',
+  })
 
-  const createData = (throttle(() => {
-    auth.createUserWithEmailAndPassword(email, password)
+  const onSubmit: SubmitHandler<RegisterInputs> = (throttle(async ({
+                                                                     email,
+                                                                     password,
+                                                                     name,
+                                                                     profilePic,
+                                                                   }: any): Promise<any> => {
+    await auth.createUserWithEmailAndPassword(email, password)
       .then((userAuth) => {
         if (userAuth != null) {
           firebase.firestore()
@@ -55,15 +66,9 @@ export const Register: React.FC = () => {
               }))
           })
       }).catch((error) => alert(error))
+    reset()
   }, 3000, { 'trailing': false }))
 
-  const register = async () => {
-    if (!name) {
-      return alert('Please enter a full name')
-    }
-    await delay(3000)
-    await createData()
-  }
 
   return (
     <div className='login'>
@@ -71,30 +76,47 @@ export const Register: React.FC = () => {
         src='https://ak.picdn.net/shutterstock/videos/24102940/thumb/1.jpg'
         alt=''
       />
-      <form className='form'>
+      <form className='form' onSubmit={handleSubmit(onSubmit)}>
         <input placeholder='Full Name'
                type='text'
-               value={name}
-               onChange={(e) => setName(e.target.value)}
+               onChange={name => setValue('name', name)}
+               {...register('name', {
+                 required: 'name is required',
+               })}
         />
+        {errors.name && <div style={{ color: 'red' }}>{errors.name.message}</div>}
 
         <input placeholder='Profile Url Image'
                type='text'
-               onChange={(e) => setProfilePic(e.target.value)}
+               onChange={profilePic => setValue('profilePic', profilePic)}
+               {...register('profilePic', {
+                 required: 'profilePic is required',
+               })}
         />
+        {errors.profilePic && <div style={{ color: 'red' }}>{errors.profilePic.message}</div>}
 
-        <input value={email}
-               onChange={(e) => setEmail(e.target.value)}
+        <input onChange={email => setValue('email', email)}
                placeholder='Email'
                type='email'
+               {...register('email', {
+                 required: 'email is required',
+                 pattern: {
+                   value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                   message: 'Please enter valid email',
+                 },
+               })}
         />
+        {errors.email && <div style={{ color: 'red' }}>{errors.email.message}</div>}
+
         <input placeholder='Password'
                type='password'
-               value={password}
-               onChange={(e) => setPassword(e.target.value)}
+               onChange={password => setValue('email', password)}
+               {...register('password', { required: 'password is required' })}
         />
+        {errors.password && <div style={{ color: 'red' }}>{errors.password.message}</div>}
+
         <IconButton
-          onClick={register}
+          onClick={handleSubmit(onSubmit)}
           size='small'
           className='item'
           sx={{

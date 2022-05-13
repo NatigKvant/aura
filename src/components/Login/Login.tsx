@@ -1,35 +1,42 @@
-// @ts-nocheck
-import React, { useState } from 'react'
+//@ts-nocheck
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import './Login.scss'
-import { auth } from '../Firebase/firebase'
-import { useDispatch } from 'react-redux'
-import { login } from '../../features/userSlice'
-import { fireBase } from '../Firebase/firebase'
 import IconButton from '@mui/material/IconButton'
 import { NavLink } from 'react-router-dom'
 import { throttle } from 'lodash'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { auth, fireBase } from '../Firebase/firebase'
+import { useDispatch } from 'react-redux'
+import { useActions } from '../../hooks/useActions'
 
 export interface LoginPropsType {
   isLoading: boolean
   setIsLoading: (value: boolean) => void
 }
 
+export interface LoginInputs {
+  email: string
+  password: string | number
+}
+
 export const Login: React.FC<LoginPropsType> = ({ isLoading, setIsLoading }) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const dispatch = useDispatch()
+
   let history = useHistory()
+  const dispatch = useDispatch()
+  const { login } = useActions()
 
-  const delay = (wait = 1000) => {
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        resolve()
-      }, wait)
-    })
-  }
+  const {
+    register,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm<LoginInputs>({
+    mode: 'onChange',
+  })
 
-  const signData = (throttle(async () => {
+  const onSubmit: SubmitHandler<LoginInputs> = (throttle(async ({ email, password }: any): Promise<any> => {
+    setIsLoading(false)
     await auth.signInWithEmailAndPassword(email, password).then(
       ({
          user: {
@@ -52,19 +59,9 @@ export const Login: React.FC<LoginPropsType> = ({ isLoading, setIsLoading }) => 
             status: 'Online',
           })
       }).catch(error => alert(error))
+    reset()
+    history.push('/homepage')
   }, 3000, { 'trailing': false }))
-
-  const loginToApp = async (e) => {
-    e.preventDefault()
-    try {
-      setIsLoading(false)
-      await delay(3000)
-      await signData()
-      history.push('/homepage')
-    } catch (e) {
-      console.log(e)
-    }
-  }
 
   return (
     <div className='login'>
@@ -72,21 +69,30 @@ export const Login: React.FC<LoginPropsType> = ({ isLoading, setIsLoading }) => 
         src='https://ak.picdn.net/shutterstock/videos/24102940/thumb/1.jpg'
         alt=''
       />
-      <form className='form'>
-        <input value={email}
-               onChange={(e) => setEmail(e.target.value)}
-               placeholder='Email'
-               type='email'
+      <form className='form' onSubmit={handleSubmit(onSubmit)}>
+        <input
+          onChange={email => setValue('email', email)}
+          placeholder='Email'
+          type='email'
+          {...register('email', {
+            required: 'email is required',
+            pattern: {
+              value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: 'Please enter valid email',
+            },
+          })}
         />
+        {errors.email && <div style={{ color: 'red' }}>{errors.email.message}</div>}
         <input placeholder='Password'
                type='password'
-               value={password}
-               onChange={(e) => setPassword(e.target.value)}
+               onChange={password => setValue('email', password)}
+               {...register('password', { required: 'password is required' })}
         />
+        {errors.password && <div style={{ color: 'red' }}>{errors.password.message}</div>}
         <IconButton
           size='small'
           className='item'
-          onClick={loginToApp}
+          onClick={handleSubmit(onSubmit)}
           sx={{
             ml: 1,
             mb: 0.5,

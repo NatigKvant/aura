@@ -29,7 +29,7 @@ const Post: React.FC = forwardRef<HTMLInputElement>(({ name, description, messag
   }, [likesCount])
 
   setTimeout(() => {
-    localStorage.setItem('likesCount', JSON.stringify(0))
+    localStorage.removeItem('likesCount', JSON.stringify(0))
   }, 60000)
 
   // const now = new Date()
