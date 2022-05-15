@@ -99,8 +99,8 @@ export const App: React.FC = () => {
           {!user ? (
             <>
               <Switch>
-                <Route path='/login' render={() => <Login isLoading={isLoading}
-                                                          setIsLoading={setIsLoading}
+                <Route path={'/login' && '/'} render={() => <Login isLoading={isLoading}
+                                                                   setIsLoading={setIsLoading}
                 />} />
                 <Route exact path='/register' render={() => <Register isLoading={isLoading}
                                                                       setIsLoading={setIsLoading}
