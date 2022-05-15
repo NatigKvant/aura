@@ -36,31 +36,37 @@ export const Login: React.FC<LoginPropsType> = ({ isLoading, setIsLoading }) => 
   })
 
   const onSubmit: SubmitHandler<LoginInputs> = (throttle(async ({ email, password }: any): Promise<any> => {
-    setIsLoading(false)
-    await auth.signInWithEmailAndPassword(email, password).then(
-      ({
-         user: {
-           email,
-           uid,
-           displayName,
-           photoURL,
-         },
-       }) => {
-        dispatch(login({
-          email,
-          uid,
-          displayName,
-          profileUrl: photoURL,
-        }))
-        fireBase.firestore()
-          .collection('users')
-          .doc(fireBase.auth().currentUser.uid)
-          .update({
-            status: 'Online',
-          })
-      }).catch(error => alert(error))
-    reset()
-    history.push('/homepage')
+    try {
+      setIsLoading(false)
+      await auth.signInWithEmailAndPassword(email, password).then(
+        ({
+           user: {
+             email,
+             uid,
+             displayName,
+             photoURL,
+           },
+         }) => {
+          dispatch(login({
+            email,
+            uid,
+            displayName,
+            profileUrl: photoURL,
+          }))
+          fireBase.firestore()
+            .collection('users')
+            .doc(fireBase.auth().currentUser.uid)
+            .update({
+              status: 'Online',
+            })
+        })/*.catch(error => alert(error))*/
+      reset()
+      setIsLoading(true)
+      history.push('/homepage')
+    } catch {
+      alert('Login or Password is incorrect')
+      setIsLoading(true)
+    }
   }, 3000, { 'trailing': false }))
 
   return (

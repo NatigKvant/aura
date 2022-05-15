@@ -17,7 +17,12 @@ export interface RegisterInputs {
   password: string | number
 }
 
-export const Register: React.FC = () => {
+interface RegisterPropsType {
+  isLoading: boolean
+  setIsLoading: (value: boolean) => void
+}
+
+export const Register: React.FC<RegisterPropsType> = ({ isLoading, setIsLoading }) => {
 
   const dispatch = useDispatch()
   const { login } = useActions()
@@ -37,6 +42,7 @@ export const Register: React.FC = () => {
                                                                      name,
                                                                      profilePic,
                                                                    }: any): Promise<any> => {
+    setIsLoading(false)
     await auth.createUserWithEmailAndPassword(email, password)
       .then((userAuth) => {
         if (userAuth != null) {
@@ -67,6 +73,7 @@ export const Register: React.FC = () => {
           })
       }).catch((error) => alert(error))
     reset()
+    setIsLoading(true)
   }, 3000, { 'trailing': false }))
 
 

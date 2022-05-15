@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Redirect } from 'react-router-dom'
 import './App.scss'
 import { Header } from './components/Header/Header'
 import { Login } from './components/Login/Login'
@@ -30,7 +29,7 @@ export interface Data {
 export const App: React.FC = () => {
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
-  const { login, logout} = useActions()
+  const { login, logout } = useActions()
 
   console.log(user)
 
@@ -92,7 +91,7 @@ export const App: React.FC = () => {
     setChatOpen(false)
     setLeftMenuOpen(false)
   }
-  
+
   return (
     <BrowserRouter>
       {!isLoading ? <Spinner /> :
@@ -103,8 +102,9 @@ export const App: React.FC = () => {
                 <Route path='/login' render={() => <Login isLoading={isLoading}
                                                           setIsLoading={setIsLoading}
                 />} />
-                <Route exact path='/register' render={() => <Register />} />
-                <Redirect from='/' to='/login' />
+                <Route exact path='/register' render={() => <Register isLoading={isLoading}
+                                                                      setIsLoading={setIsLoading}
+                />} />
               </Switch>
             </>
           ) : (

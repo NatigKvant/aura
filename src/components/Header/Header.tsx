@@ -19,7 +19,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import MoreIcon from '@mui/icons-material/MoreVert'
 import PeopleIcon from '@mui/icons-material/People'
 import './Header.scss'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { auth } from '../Firebase/firebase'
 import { HeaderOption } from './HeaderOption'
@@ -81,7 +81,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     right: 'none !important',
     bottom: 'auto !important',
     pointerEvents: 'auto !important',
-    width: '200px'
+    width: '200px',
   },
 }))
 
@@ -147,6 +147,7 @@ export const Header: React.FC<HeaderPropsType> = ({
       })
     dispatch(logout())
     await auth.signOut()
+    history.push('/login')
   }, [dispatch])
 
   const [anchorEl, setAnchorEl] = React.useState(null)
