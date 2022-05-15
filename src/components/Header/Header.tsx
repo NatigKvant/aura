@@ -95,6 +95,8 @@ export interface HeaderPropsType {
   setChatOpen: (value: any) => void
   setLeftMenuOpen: (value: any) => void
   setNotificationsOpen: (value: any) => void
+  isLoading: boolean
+  setIsLoading: (value: boolean) => void
 }
 
 export const Header: React.FC<HeaderPropsType> = ({
@@ -107,6 +109,8 @@ export const Header: React.FC<HeaderPropsType> = ({
                                                     setChatOpen,
                                                     setLeftMenuOpen,
                                                     setNotificationsOpen,
+                                                    isLoading = { isLoading },
+                                                    setIsLoading = { setIsLoading },
                                                   }) => {
   const dispatch = useDispatch()
   const { logout } = useActions()
@@ -139,6 +143,7 @@ export const Header: React.FC<HeaderPropsType> = ({
   }, [leftMenuOpen, setLeftMenuOpen])
 
   const logoutOfApp = useCallback(async () => {
+    setIsLoading(false)
     await fireBase.firestore()
       .collection('users')
       .doc(fireBase.auth().currentUser.uid)
@@ -148,6 +153,7 @@ export const Header: React.FC<HeaderPropsType> = ({
     dispatch(logout())
     await auth.signOut()
     history.push('/login')
+    setIsLoading(true)
   }, [dispatch])
 
   const [anchorEl, setAnchorEl] = React.useState(null)

@@ -119,6 +119,8 @@ export const App: React.FC = () => {
                 setChatOpen={setChatOpen}
                 setLeftMenuOpen={setLeftMenuOpen}
                 setNotificationsOpen={setNotificationsOpen}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
               />
               <Switch>
                 <React.Fragment>
