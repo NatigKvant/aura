@@ -31,14 +31,8 @@ export const App: React.FC = () => {
   const dispatch = useDispatch()
   const { login, logout } = useActions()
 
-  console.log(user)
-
   const [messages, setMessages] = useState([])
   const [users, setUsers] = useState([])
-  const [chatOpen, setChatOpen] = useState(false)
-  const [leftMenuOpen, setLeftMenuOpen] = useState(false)
-  const [notificationsOpen, setNotificationsOpen] = useState(false)
-
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
@@ -86,12 +80,6 @@ export const App: React.FC = () => {
     })
   }, [dispatch])
 
-  const closePopups = () => {
-    setNotificationsOpen(false)
-    setChatOpen(false)
-    setLeftMenuOpen(false)
-  }
-
   return (
     <BrowserRouter>
       {!isLoading ? <Spinner /> :
@@ -113,18 +101,11 @@ export const App: React.FC = () => {
                 messages={messages}
                 setMessages={setMessages}
                 user={user}
-                chatOpen={chatOpen}
-                leftMenuOpen={leftMenuOpen}
-                notificationsOpen={notificationsOpen}
-                setChatOpen={setChatOpen}
-                setLeftMenuOpen={setLeftMenuOpen}
-                setNotificationsOpen={setNotificationsOpen}
-                isLoading={isLoading}
                 setIsLoading={setIsLoading}
               />
               <Switch>
                 <React.Fragment>
-                  <div className='app_body' onClick={closePopups}>
+                  <div className='app_body'>
                     <Route path='/messages' render={() => <SampleChat users={users}
                                                                       messages={messages}
                                                                       setMessages={setMessages}

@@ -6,7 +6,17 @@ import firebase from 'firebase/compat/app'
 import Message from './Message'
 import { throttle } from 'lodash'
 
-export const Chat: React.FC = ({ chatOpen, messages, setMessages, user }) => {
+interface ChatPropsType {
+  messages: any
+  setMessages: any
+  user: any
+}
+
+export const Chat: React.FC<ChatPropsType> = ({
+                                                messages,
+                                                setMessages,
+                                                user,
+                                              }) => {
 
   const messagesEndRef = useRef(null)
   const [input, setInput] = useState('')
@@ -53,13 +63,9 @@ export const Chat: React.FC = ({ chatOpen, messages, setMessages, user }) => {
     sendMessage()
   }
 
-
   return (
     <form onSubmit={messageHandleSubmit}>
-      <div
-        className={chatOpen ? 'chat' : 'none'}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div>
         <div className='smallChat'>
           <div className='middleSmallChat'>
             <div className='incomingMessages'>

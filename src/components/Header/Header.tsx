@@ -32,6 +32,7 @@ import { Chat } from '../Chat/Chat'
 import { makeStyles } from '@mui/styles'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { useActions } from '../../hooks/useActions'
+import { useOutside } from '../../hooks/useOutside'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -68,14 +69,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '1112px',
+      width: '112px',
     },
   },
 }))
 
 export const useStyles = makeStyles((theme: Theme) => ({
   menuPaper: {
-    backgroundColor: 'rgba(23, 22, 22, 0.15)',
+    background: '#101010',
     color: '#ff6200',
     border: '1px solid grey',
     right: 'none !important',
@@ -89,13 +90,6 @@ export interface HeaderPropsType {
   messages: any
   setMessages: (value: any) => void
   user: any
-  chatOpen: boolean
-  leftMenuOpen: boolean
-  notificationsOpen: boolean
-  setChatOpen: (value: any) => void
-  setLeftMenuOpen: (value: any) => void
-  setNotificationsOpen: (value: any) => void
-  isLoading: boolean
   setIsLoading: (value: boolean) => void
 }
 
@@ -103,17 +97,20 @@ export const Header: React.FC<HeaderPropsType> = ({
                                                     messages,
                                                     setMessages,
                                                     user,
-                                                    chatOpen,
-                                                    leftMenuOpen,
-                                                    notificationsOpen,
-                                                    setChatOpen,
-                                                    setLeftMenuOpen,
-                                                    setNotificationsOpen,
-                                                    isLoading = { isLoading },
                                                     setIsLoading = { setIsLoading },
                                                   }) => {
   const dispatch = useDispatch()
   const { logout } = useActions()
+
+  const {
+    ref,
+    showLeftMenu,
+    setShowLeftMenu,
+    showChat,
+    setShowChat,
+    showNotifications,
+    setShowNotifications,
+  } = useOutside(false)
 
   const [badgeCountMessages, setBadgeCountMessages] = useState(0)
   const [badgeCountNotifications, setBadgeCountNotifications] = useState(0)
@@ -129,18 +126,19 @@ export const Header: React.FC<HeaderPropsType> = ({
   }, [messages])
 
   const handleChatOpen = useCallback(() => {
-    setChatOpen(!chatOpen)
+    setShowChat(!showChat)
     setBadgeCountMessages(0)
-  }, [chatOpen, badgeCountMessages])
+  }, [showChat, badgeCountMessages])
+
 
   const handleNotificationsOpen = useCallback(() => {
-    setNotificationsOpen(!notificationsOpen)
+    setShowNotifications(!showNotifications)
     setBadgeCountNotifications(0)
-  }, [notificationsOpen, setNotificationsOpen])
+  }, [showNotifications])
 
   const handleLeftMenuOpen = useCallback(() => {
-    setLeftMenuOpen(!leftMenuOpen)
-  }, [leftMenuOpen, setLeftMenuOpen])
+    setShowLeftMenu(!showLeftMenu)
+  }, [showLeftMenu])
 
   const logoutOfApp = useCallback(async () => {
     setIsLoading(false)
@@ -305,7 +303,7 @@ export const Header: React.FC<HeaderPropsType> = ({
   )
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }} ref={ref}>
       <AppBar position='fixed' className='header_bar'>
         <Toolbar>
           <IconButton
@@ -389,13 +387,21 @@ export const Header: React.FC<HeaderPropsType> = ({
             <HeaderOption avatar={true} onClick={handleProfileMenuOpen}>
               <AccountCircle />
             </HeaderOption>
-            <Notifications notificationsOpen={notificationsOpen} />
-            <LeftMenu leftMenuOpen={leftMenuOpen} />
-            <Chat chatOpen={chatOpen}
-                  messages={messages}
+
+            {showNotifications &&
+            <Notifications />
+            }
+
+            {showLeftMenu &&
+            <LeftMenu />
+            }
+
+            {showChat &&
+            <Chat messages={messages}
                   setMessages={setMessages}
                   user={user}
             />
+            }
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
