@@ -59,7 +59,16 @@ export const Feed: React.FC = () => {
             <div className='feed_input'>
               <CreateIcon />
               <TextField
-                inputProps={{ style: { color: '#ff6200', border: '1px solid #ff6200', boxShadow: '1px 0px 2px #aaaa98' } }}
+                inputProps={{
+                  style:
+                    {
+                      color: '#ff6200',
+                      border: '1px solid #ff6200',
+                      boxShadow: '1px 0px 2px #aaaa98',
+                      disableUnderline: true,
+                      border: 'none'
+                    },
+                }}
                 variant={'outlined'}
                 fullWidth
                 size='small'

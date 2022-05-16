@@ -103,13 +103,21 @@ export const Header: React.FC<HeaderPropsType> = ({
   const { logout } = useActions()
 
   const {
-    ref,
-    showLeftMenu,
-    setShowLeftMenu,
-    showChat,
-    setShowChat,
-    showNotifications,
-    setShowNotifications,
+    ref: leftMenuRef,
+    isShow: isLeftMenuShow,
+    setIsShow: setIsLeftMenuSetShow,
+  } = useOutside(false)
+
+  const {
+    ref: chatMenuRef,
+    isShow: isChatShow,
+    setIsShow: setIsChatShow,
+  } = useOutside(false)
+
+  const {
+    ref: notificationRef,
+    isShow: isNotificationsShow,
+    setIsShow: setIsNotificationsShow,
   } = useOutside(false)
 
   const [badgeCountMessages, setBadgeCountMessages] = useState(0)
@@ -126,19 +134,19 @@ export const Header: React.FC<HeaderPropsType> = ({
   }, [messages])
 
   const handleChatOpen = useCallback(() => {
-    setShowChat(!showChat)
+    setIsChatShow(!isChatShow)
     setBadgeCountMessages(0)
-  }, [showChat, badgeCountMessages])
+  }, [isChatShow, badgeCountMessages])
 
 
   const handleNotificationsOpen = useCallback(() => {
-    setShowNotifications(!showNotifications)
+    setIsNotificationsShow(!isNotificationsShow)
     setBadgeCountNotifications(0)
-  }, [showNotifications])
+  }, [isNotificationsShow])
 
   const handleLeftMenuOpen = useCallback(() => {
-    setShowLeftMenu(!showLeftMenu)
-  }, [showLeftMenu])
+    setIsLeftMenuSetShow(!isLeftMenuShow)
+  }, [isLeftMenuShow])
 
   const logoutOfApp = useCallback(async () => {
     setIsLoading(false)
@@ -303,19 +311,25 @@ export const Header: React.FC<HeaderPropsType> = ({
   )
 
   return (
-    <Box sx={{ flexGrow: 1 }} ref={ref}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position='fixed' className='header_bar'>
         <Toolbar>
-          <IconButton
-            onClick={handleLeftMenuOpen}
-            size='large'
-            edge='start'
-            color='inherit'
-            aria-label='open drawer'
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <div ref={leftMenuRef}>
+            <IconButton
+              onClick={handleLeftMenuOpen}
+              size='large'
+              edge='start'
+              color='inherit'
+              aria-label='open drawer'
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            {isLeftMenuShow &&
+            <LeftMenu />
+            }
+          </div>
           <Typography
             variant='h6'
             noWrap
@@ -364,44 +378,49 @@ export const Header: React.FC<HeaderPropsType> = ({
                 <ForumIcon />
               </IconButton>
             </Stack>
-            <IconButton
-              onClick={handleChatOpen}
-              size='large'
-              aria-label='show 1 new mails'
-              color='inherit'
-            >
-              <Badge badgeContent={badgeCountMessages} color='error'>
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              onClick={handleNotificationsOpen}
-              size='large'
-              aria-label='show 1 new notifications'
-              color='inherit'
-            >
-              <Badge badgeContent={badgeCountNotifications} color='error'>
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+
+            <div ref={chatMenuRef}>
+              <IconButton
+                onClick={handleChatOpen}
+                size='large'
+                aria-label='show 1 new mails'
+                color='inherit'
+              >
+                <Badge badgeContent={badgeCountMessages} color='error'>
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+              {isChatShow &&
+              <Chat messages={messages}
+                    setMessages={setMessages}
+                    user={user}
+              />
+              }
+            </div>
+
+
+            <div ref={notificationRef}>
+              <IconButton
+                onClick={handleNotificationsOpen}
+                size='large'
+                aria-label='show 1 new notifications'
+                color='inherit'
+              >
+                <Badge badgeContent={badgeCountNotifications} color='error'>
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+
+              {isNotificationsShow &&
+              <Notifications />
+              }
+            </div>
+
             <HeaderOption avatar={true} onClick={handleProfileMenuOpen}>
               <AccountCircle />
             </HeaderOption>
 
-            {showNotifications &&
-            <Notifications />
-            }
 
-            {showLeftMenu &&
-            <LeftMenu />
-            }
-
-            {showChat &&
-            <Chat messages={messages}
-                  setMessages={setMessages}
-                  user={user}
-            />
-            }
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
