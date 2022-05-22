@@ -140,7 +140,7 @@ export const Register: React.FC<RegisterPropsType> = ({ isLoading, setIsLoading 
         <IconButton
           size='small'
           className='item'
-          to={'/'}
+          to={'/login'}
           component={NavLink}
           color='primary'
           sx={{

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './App.scss'
 import { Header } from './components/Header/Header'
 import { Login } from './components/Login/Login'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectUser } from './features/authSlice'
+import { useDispatch } from 'react-redux'
 import { db, auth } from './components/Firebase/firebase'
 import { HomePage } from './components/Home/HomePage'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
@@ -12,6 +11,7 @@ import { SampleChat } from './components/SampleChat/SampleChat'
 import { Register } from './components/Login/Register'
 import { Spinner } from './components/Spinner/Spinner'
 import { useActions } from './hooks/useActions'
+import { useAuth } from './hooks/useAuth'
 
 export interface Message {
   email: string
@@ -27,7 +27,11 @@ export interface Data {
 }
 
 export const App: React.FC = () => {
-  const user = useSelector(selectUser)
+
+  const user = useAuth()
+
+  console.log('user', user)
+
   const dispatch = useDispatch()
   const { login, logout } = useActions()
 
@@ -87,11 +91,11 @@ export const App: React.FC = () => {
           {!user ? (
             <>
               <Switch>
-                <Route path={'/login' && '/'} render={() => <Login isLoading={isLoading}
-                                                                   setIsLoading={setIsLoading}
+                <Route path='/login' render={() => <Login isLoading={isLoading}
+                                                          setIsLoading={setIsLoading}
                 />} />
-                <Route exact path='/register' render={() => <Register isLoading={isLoading}
-                                                                      setIsLoading={setIsLoading}
+                <Route path='/register' render={() => <Register isLoading={isLoading}
+                                                                setIsLoading={setIsLoading}
                 />} />
               </Switch>
             </>

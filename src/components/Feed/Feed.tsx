@@ -66,7 +66,7 @@ export const Feed: React.FC = () => {
                       border: '1px solid #ff6200',
                       boxShadow: '1px 0px 2px #aaaa98',
                       disableUnderline: true,
-                      border: 'none'
+                      border: 'none',
                     },
                 }}
                 variant={'outlined'}
