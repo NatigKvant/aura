@@ -1,9 +1,7 @@
-// @ts-nocheck
 import React, { forwardRef } from 'react'
 import { Avatar } from '@material-ui/core'
 
-
-const Message: React.FC = forwardRef<HTMLInputElement>(
+const Message = forwardRef<HTMLInputElement>(
   ({ name, description, message, photoUrl, userId, user }: any, ref) => {
 
     return (

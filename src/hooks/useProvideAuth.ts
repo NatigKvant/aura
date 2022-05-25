@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import firebase from 'firebase/compat/app'
 
 export const useProvideAuth = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null)
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
   const signin = (email: any, password: any) => {
@@ -11,45 +11,45 @@ export const useProvideAuth = () => {
       .signInWithEmailAndPassword(email, password)
       .then((response) => {
         // @ts-ignore
-        setUser(response.user);
-        return response.user;
-      });
-  };
+        setUser(response.user)
+        return response.user
+      })
+  }
   const signup = (email: any, password: any) => {
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
         // @ts-ignore
-        setUser(response.user);
-        return response.user;
-      });
-  };
+        setUser(response.user)
+        return response.user
+      })
+  }
   const signout = () => {
     return firebase
       .auth()
       .signOut()
       .then(() => {
         // @ts-ignore
-        setUser(false);
-      });
-  };
+        setUser(false)
+      })
+  }
   const sendPasswordResetEmail = (email: any) => {
     return firebase
       .auth()
       .sendPasswordResetEmail(email)
       .then(() => {
-        return true;
-      });
-  };
+        return true
+      })
+  }
   const confirmPasswordReset = (code: any, password: any) => {
     return firebase
       .auth()
       .confirmPasswordReset(code, password)
       .then(() => {
-        return true;
-      });
-  };
+        return true
+      })
+  }
   // Subscribe to user on mount
   // Because this sets state in the callback it will cause any ...
   // ... component that utilizes this hook to re-render with the ...
@@ -58,15 +58,15 @@ export const useProvideAuth = () => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // @ts-ignore
-        setUser(user);
+        setUser(user)
       } else {
         // @ts-ignore
-        setUser(false);
+        setUser(false)
       }
-    });
+    })
     // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
+    return () => unsubscribe()
+  }, [])
   // Return the user object and auth methods
   return {
     user,
@@ -75,5 +75,5 @@ export const useProvideAuth = () => {
     signout,
     sendPasswordResetEmail,
     confirmPasswordReset,
-  };
+  }
 }

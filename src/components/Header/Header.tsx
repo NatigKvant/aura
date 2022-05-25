@@ -88,14 +88,12 @@ export const useStyles = makeStyles((theme: Theme) => ({
 
 export interface HeaderPropsType {
   messages: any
-  setMessages: (value: any) => void
   user: any
   setIsLoading: (value: boolean) => void
 }
 
 export const Header: React.FC<HeaderPropsType> = ({
                                                     messages,
-                                                    setMessages,
                                                     user,
                                                     setIsLoading = { setIsLoading },
                                                   }) => {
@@ -129,9 +127,9 @@ export const Header: React.FC<HeaderPropsType> = ({
     setBadgeCountNotifications(1)
   }, [])
 
-  useEffect(() => {
+  /*useEffect(() => {
     setBadgeCountMessages(messages.length)
-  }, [messages])
+  }, [messages])*/
 
   const handleChatOpen = useCallback(() => {
     setIsChatShow(!isChatShow)
@@ -392,7 +390,6 @@ export const Header: React.FC<HeaderPropsType> = ({
               </IconButton>
               {isChatShow &&
               <Chat messages={messages}
-                    setMessages={setMessages}
                     user={user}
               />
               }

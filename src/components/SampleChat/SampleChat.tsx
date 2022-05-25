@@ -1,13 +1,13 @@
 // @ts-nocheck
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import './SampleChat.scss'
-import { db } from '../Firebase/firebase'
 import { fireBase } from '../Firebase/firebase'
 import SampleMessage from './SampleMessage'
 import { Avatar } from '@material-ui/core'
 import { styled } from '@mui/material/styles'
 import Badge from '@mui/material/Badge'
 import { throttle } from 'lodash'
+import firebase from 'firebase/compat/app'
 
 export const StyledBadge = styled(Badge)(({ theme, users }) => ({
   '& .MuiBadge-badge': users ? {
@@ -23,12 +23,12 @@ export const StyledBadge = styled(Badge)(({ theme, users }) => ({
 
 export interface SampleChatPropsType {
   users: any
-  setMessages: (value: any) => void
   messages: any
   user: any
 }
 
-export const SampleChat: React.FC<SampleChatPropsType> = ({ users, messages, setMessages, user }) => {
+export const SampleChat: React.FC<SampleChatPropsType> = ({ users, messages, user }) => {
+  const firestore = fireBase.firestore()
   const messagesEndRef = useRef(null)
   const [input, setInput] = useState('')
 
@@ -40,27 +40,14 @@ export const SampleChat: React.FC<SampleChatPropsType> = ({ users, messages, set
     scrollToBottom()
   }, [messages])
 
-  useEffect(() => {
-    db.collection('messages')
-      .orderBy('timestamp', 'asc')
-      .onSnapshot((snapshot) =>
-        setMessages(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          })),
-        ),
-      )
-  }, [])
-
   const sendMessage = useCallback(throttle(async () => {
     if (input !== '') {
-      await db.collection('messages').add({
+      await firestore.collection('messages').add({
         name: user.displayName,
         description: user.email,
         message: input,
         photoUrl: user.photoUrl || '',
-        timestamp: fireBase.firestore.FieldValue.serverTimestamp(),
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         userId: user.uid,
       })
       setInput('')
@@ -93,11 +80,10 @@ export const SampleChat: React.FC<SampleChatPropsType> = ({ users, messages, set
             <div className='messages'>
               {messages.map(
                 ({
-                   id,
-                   data: { name, description, message, photoUrl, userId },
-                 }) => (
+                   name, description, message, photoUrl, userId,
+                 }, index) => (
                   <SampleMessage
-                    key={id}
+                    key={index}
                     name={name}
                     description={description}
                     message={message}

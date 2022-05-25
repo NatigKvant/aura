@@ -1,23 +1,20 @@
 // @ts-nocheck
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import './Chat.scss'
-import { db } from '../Firebase/firebase'
+import { fireBase } from '../Firebase/firebase'
 import firebase from 'firebase/compat/app'
 import Message from './Message'
 import { throttle } from 'lodash'
 
 interface ChatPropsType {
   messages: any
-  setMessages: any
   user: any
 }
 
 export const Chat: React.FC<ChatPropsType> = ({
                                                 messages,
-                                                setMessages,
                                                 user,
                                               }) => {
-
   const messagesEndRef = useRef(null)
   const [input, setInput] = useState('')
 
@@ -29,24 +26,11 @@ export const Chat: React.FC<ChatPropsType> = ({
     scrollToBottom()
   }, [messages])
 
-  useEffect(() => {
-    db.collection('messages')
-      .orderBy('timestamp', 'asc')
-      .onSnapshot((snapshot) =>
-        setMessages(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          })),
-        ),
-      )
-    return () => {
-    }
-  }, [])
+  const firestore = fireBase.firestore()
 
   const sendMessage = useCallback(throttle(async () => {
     if (input !== '') {
-      await db.collection('messages').add({
+      await firestore.collection('messages').add({
         name: user.displayName,
         description: user.email,
         message: input,
@@ -71,11 +55,10 @@ export const Chat: React.FC<ChatPropsType> = ({
             <div className='incomingMessages'>
               {messages.map(
                 ({
-                   id,
-                   data: { name, description, message, photoUrl, userId },
-                 }) => (
+                   name, description, message, photoUrl, userId,
+                 }, index) => (
                   <Message
-                    key={id}
+                    key={index}
                     name={name}
                     description={description}
                     message={message}

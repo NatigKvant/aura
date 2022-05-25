@@ -12,8 +12,8 @@ import { db } from '../Firebase/firebase'
 import firebase from 'firebase/compat/app'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/authSlice'
-import TextField from '@material-ui/core/TextField'
 import { throttle } from 'lodash'
+import { InputBase } from '@mui/material'
 
 export const Feed: React.FC = () => {
   const user = useSelector(selectUser)
@@ -58,21 +58,18 @@ export const Feed: React.FC = () => {
           <div className='feed_inputContainer'>
             <div className='feed_input'>
               <CreateIcon />
-              <TextField
+              <InputBase
                 inputProps={{
                   style:
                     {
                       color: '#ff6200',
                       border: '1px solid #ff6200',
                       boxShadow: '1px 0px 2px #aaaa98',
-                      disableUnderline: true,
+                      disableUnderline: false,
                       border: 'none',
                     },
                 }}
-                variant={'outlined'}
                 fullWidth
-                size='small'
-                rowsMax={2}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 type='text'

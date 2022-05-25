@@ -3,15 +3,17 @@ import './App.scss'
 import { Header } from './components/Header/Header'
 import { Login } from './components/Login/Login'
 import { useDispatch } from 'react-redux'
-import { db, auth } from './components/Firebase/firebase'
+import { db, auth, fireBase } from './components/Firebase/firebase'
 import { HomePage } from './components/Home/HomePage'
-import { Switch, Route, BrowserRouter } from 'react-router-dom'
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom'
 import { FriendsPage } from 'components/FriendsPage/FriendsPage'
 import { SampleChat } from './components/SampleChat/SampleChat'
 import { Register } from './components/Login/Register'
 import { Spinner } from './components/Spinner/Spinner'
 import { useActions } from './hooks/useActions'
 import { useAuth } from './hooks/useAuth'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
+
 
 export interface Message {
   email: string
@@ -28,16 +30,21 @@ export interface Data {
 
 export const App: React.FC = () => {
 
+  const firestore = fireBase.firestore()
   const user = useAuth()
-
-  console.log('user', user)
-
   const dispatch = useDispatch()
   const { login, logout } = useActions()
 
-  const [messages, setMessages] = useState([])
+  const [messages, loading] = useCollectionData(
+    firestore.collection('messages').orderBy('timestamp', 'asc'),
+  )
+
   const [users, setUsers] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+
+  const initializeApp = () => {
+    return <Redirect to={'/login'} />
+  }
 
   useEffect(() => {
     (async () => {
@@ -51,20 +58,6 @@ export const App: React.FC = () => {
       })
     })()
   }, [])
-
-  useEffect(() => {
-    db.collection('messages')
-      .orderBy('timestamp', 'asc')
-      .onSnapshot(({ docs }: any) =>
-        setMessages(
-          docs.map((doc: any): { data: Message; id: number | string } => ({
-            id: doc.id,
-            data: doc.data(),
-          })),
-        ),
-      )
-  }, [])
-
 
   useEffect(() => {
     auth.onAuthStateChanged((userAuth) => {
@@ -86,6 +79,7 @@ export const App: React.FC = () => {
 
   return (
     <BrowserRouter>
+      {user === null && initializeApp()}
       {!isLoading ? <Spinner /> :
         <div className='app'>
           {!user ? (
@@ -103,7 +97,6 @@ export const App: React.FC = () => {
             <div>
               <Header
                 messages={messages}
-                setMessages={setMessages}
                 user={user}
                 setIsLoading={setIsLoading}
               />
@@ -112,7 +105,6 @@ export const App: React.FC = () => {
                   <div className='app_body'>
                     <Route path='/messages' render={() => <SampleChat users={users}
                                                                       messages={messages}
-                                                                      setMessages={setMessages}
                                                                       user={user} />} />
                     <Route path='/homepage' render={() => <HomePage />} />
                     <Route path='/friendspage' render={() => <FriendsPage users={users} />} />
